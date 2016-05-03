@@ -1,10 +1,10 @@
 <?php namespace MW;
 
-use MW\SQLBuilder\Delete;
-use MW\SQLBuilder\Insert;
+use MW\SQLBuilder\DeleteQuery;
+use MW\SQLBuilder\InsertQuery;
 use MW\SQLBuilder\Query;
-use MW\SQLBuilder\Select;
-use MW\SQLBuilder\Update;
+use MW\SQLBuilder\SelectQuery;
+use MW\SQLBuilder\UpdateQuery;
 
 /**
  * Class SQLBuilderFactory
@@ -40,13 +40,13 @@ class SQLBuilderFactory
     {
         switch ($type) {
             case self::SELECT: 
-                return new Select($this->connection);
+                return new SelectQuery($this->connection);
             case self::INSERT:
-                return new Insert($this->connection);
+                return new InsertQuery($this->connection);
             case self::UPDATE:
-                return new Update($this->connection);
+                return new UpdateQuery($this->connection);
             case self::DELETE:
-                return new Delete($this->connection);
+                return new DeleteQuery($this->connection);
         }
         
         throw new UnrecognizedSqlQueryTypeException();

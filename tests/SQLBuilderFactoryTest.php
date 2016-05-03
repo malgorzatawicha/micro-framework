@@ -26,27 +26,27 @@ class SQLBuilderFactoryTest extends \PHPUnit_Framework_TestCase
     public function testBuildingSelectQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\Select', $class->newSqlBuilderInstance(SQLBuilderFactory::SELECT));
+        $this->assertInstanceOf('\MW\SQLBuilder\SelectQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::SELECT));
     }
 
 
     public function testBuildingInsertQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\Insert', $class->newSqlBuilderInstance(SQLBuilderFactory::INSERT));
+        $this->assertInstanceOf('\MW\SQLBuilder\InsertQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::INSERT));
     }
 
 
     public function testBuildingUpdateQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\Update', $class->newSqlBuilderInstance(SQLBuilderFactory::UPDATE));
+        $this->assertInstanceOf('\MW\SQLBuilder\UpdateQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::UPDATE));
     }
 
 
     public function testBuildingDeleteQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\Delete', $class->newSqlBuilderInstance(SQLBuilderFactory::DELETE));
+        $this->assertInstanceOf('\MW\SQLBuilder\DeleteQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::DELETE));
     }
 }
