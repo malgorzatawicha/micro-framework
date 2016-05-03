@@ -1,7 +1,11 @@
 <?php namespace MW\SQLBuilder;
 
+use MW\SQLBuilder\Traits\HasWhereClause;
+
 class Delete extends Query
 {
+    use HasWhereClause;
+    
     protected $clauses = [
         'table' => '',
         'where' => []
@@ -19,11 +23,11 @@ class Delete extends Query
             return '';
         }
 
-        return trim($this->tableClause());
+        return trim($this->tableClause() . $this->whereClause());
     }
 
     private function tableClause()
     {
-        return "DELETE FROM {$this->clauses['table']}";
+        return "DELETE FROM {$this->clauses['table']} ";
     }
 }
