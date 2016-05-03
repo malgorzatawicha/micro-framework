@@ -30,4 +30,14 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('UPDATE products SET name=?', $query->sql());
         $this->assertEquals(['prod1'], $query->parameters());
     }
+
+    public function testAddingTableAndMultiSet()
+    {
+        $query = $this->classBuilder();
+
+        $query->table('products')->set(['name' => 'prod1', 'model' => 'm1']);
+
+        $this->assertEquals('UPDATE products SET name=?, model=?', $query->sql());
+        $this->assertEquals(['prod1', 'm1'], $query->parameters());
+    }
 }
