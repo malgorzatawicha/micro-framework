@@ -38,4 +38,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('SELECT * FROM products AS p', $select->sql());  
     }
+    
+    public function testAddingSelect()
+    {
+        $select = $this->classBuilder();
+
+        $select->table('products', 'p')
+            ->select('p.name');
+
+        $this->assertEquals('SELECT p.name FROM products AS p', $select->sql());
+    }
 }
