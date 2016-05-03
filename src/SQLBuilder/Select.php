@@ -10,8 +10,7 @@ class Select extends Query
     public function sql()
     {
         if (!empty($this->clauses['table']['name'])) {
-            $result = '';
-            return $this->selectClause() . $this->tableClause();
+            return trim($this->selectClause() . $this->tableClause());
         }
         return '';
     }
