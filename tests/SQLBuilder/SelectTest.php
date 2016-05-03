@@ -1,6 +1,7 @@
 <?php namespace Tests\SQLBuilder;
 
 use MW\Connection;
+use MW\SQLBuilder\Criteria\Equals;
 use MW\SQLBuilder\Select;
 
 class SelectTest extends \PHPUnit_Framework_TestCase
@@ -77,5 +78,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->select(['p.name' => 'product_name', 'p.model']);
 
         $this->assertEquals('SELECT p.name AS product_name, p.model FROM products AS p', $select->sql());
+    }
+    
+    public function testWhere()
+    {
+        $select = $this->classBuilder();
+
+        $select->table('products')
+            ->where(new Equals('name', 'prod1'));
+
+        $this->assertEquals('SELECT * FROM products WHERE name=?', $select->sql());
+        $this->assertEquals(['prod1'], $select->parameters());
     }
 }
