@@ -14,4 +14,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('\MW\SQLBuilder\Select', $this->classBuilder());    
     }
+
+    public function testSql()
+    {
+        $select = $this->classBuilder();
+        $this->assertEquals('', $select->sql());
+    }
 }

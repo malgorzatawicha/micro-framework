@@ -2,5 +2,8 @@
 
 class Insert extends Query
 {
-    
+    public function sql()
+    {
+        return '';
+    }
 }

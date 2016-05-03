@@ -2,5 +2,8 @@
 
 class Select extends Query
 {
-    
+    public function sql()
+    {
+        return '';
+    }
 }

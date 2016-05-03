@@ -2,5 +2,8 @@
 
 class Update extends Query
 {
-    
+    public function sql()
+    {
+        return '';
+    }
 }

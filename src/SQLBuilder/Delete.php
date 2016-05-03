@@ -2,5 +2,8 @@
 
 class Delete extends Query
 {
-    
+    public function sql()
+    {
+        return '';
+    }
 }

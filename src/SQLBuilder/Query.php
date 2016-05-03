@@ -9,4 +9,6 @@ abstract class Query
     {
         $this->connection = $connection;
     }
+    
+    abstract public function sql();
 }
