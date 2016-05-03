@@ -76,7 +76,7 @@ class Insert extends Query
      */
     private function tableClause()
     {
-        return "INSERT INTO {$this->clauses['table']} ";
+        return "INSERT INTO " . $this->clauses['table'] . " ";
     }
 
     /**

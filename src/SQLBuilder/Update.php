@@ -58,7 +58,7 @@ class Update extends Query
      */
     private function tableClause()
     {
-        return "UPDATE {$this->clauses['table']} ";
+        return "UPDATE " . $this->clauses['table']. " ";
     }
 
     /**
@@ -80,7 +80,7 @@ class Update extends Query
      */
     private function addSetSql($key)
     {
-        return "$key=?";
+        return $key . "=?";
     }
 
     /**
