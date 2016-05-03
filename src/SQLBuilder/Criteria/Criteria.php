@@ -24,7 +24,7 @@ abstract class Criteria
     public function __construct($column = null, $value = null)
     {
         $this->column = $column;
-        $this->value = $value;
+        $this->value  = $value;
     }
 
     /**

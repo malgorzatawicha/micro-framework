@@ -30,12 +30,12 @@ trait HasWhereClause
         $result = [];
         /** @var Criteria $criteria */
         foreach ($this->clauses['where'] as $criteria) {
-            $result[] = $criteria->sql();
+            $result[]   = $criteria->sql();
             $parameters = $criteria->parameters();
             if (!empty($parameters)) {
                 $this->parameters = array_merge($this->parameters, $parameters);
             }
         }
-        return "WHERE " . implode(' AND ', $result) . ' ';
+        return 'WHERE ' . implode(' AND ', $result) . ' ';
     }
 }
