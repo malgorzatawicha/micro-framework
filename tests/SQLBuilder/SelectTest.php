@@ -48,4 +48,34 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('SELECT p.name FROM products AS p', $select->sql());
     }
+
+    public function testAddingSelectWithAlias()
+    {
+        $select = $this->classBuilder();
+
+        $select->table('products', 'p')
+            ->select('p.name', 'product_name');
+
+        $this->assertEquals('SELECT p.name AS product_name FROM products AS p', $select->sql());
+    }
+
+    public function testAddingMultiSelect()
+    {
+        $select = $this->classBuilder();
+
+        $select->table('products', 'p')
+            ->select(['p.name', 'p.model']);
+
+        $this->assertEquals('SELECT p.name, p.model FROM products AS p', $select->sql());
+    }
+
+    public function testAddingMultiSelectWithAlias()
+    {
+        $select = $this->classBuilder();
+
+        $select->table('products', 'p')
+            ->select(['p.name' => 'product_name', 'p.model']);
+
+        $this->assertEquals('SELECT p.name AS product_name, p.model FROM products AS p', $select->sql());
+    }
 }
