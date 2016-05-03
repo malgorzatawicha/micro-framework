@@ -33,7 +33,7 @@ class SQLBuilderFactory
 
     /**
      * @param string $type
-     * @return Query
+     * @return SelectQuery|InsertQuery|UpdateQuery|DeleteQuery
      * @throws UnrecognizedSqlQueryTypeException
      */
     public function newSqlBuilderInstance($type)

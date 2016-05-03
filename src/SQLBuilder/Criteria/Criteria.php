@@ -18,7 +18,7 @@ abstract class Criteria
 
     /**
      * Criteria constructor.
-     * @param string $column
+     * @param string|null $column
      * @param mixed|null $value
      */
     public function __construct($column = null, $value = null)
