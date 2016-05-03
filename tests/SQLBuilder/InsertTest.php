@@ -36,4 +36,22 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('INSERT INTO products (name, model) VALUES (?, ?)', $query->sql());
         $this->assertEquals(['prod1', 'm1'], $query->parameters());
     }
+    
+    public function testAddingMultiData()
+    {
+        $query = $this->classBuilder();
+        $query->table('products')
+            ->data([['name' => 'prod1', 'model' => 'm1'], ['name' => 'prod2', 'model' => 'm2']]);
+        $this->assertEquals('INSERT INTO products (name, model) VALUES (?, ?), (?, ?)', $query->sql());
+        $this->assertEquals(['prod1', 'm1', 'prod2', 'm2'], $query->parameters());
+    }
+
+    public function testAddingMultiData2()
+    {
+        $query = $this->classBuilder();
+        $query->table('products')
+            ->multi([['name' => 'prod1', 'model' => 'm1'], ['name' => 'prod2', 'model' => 'm2']]);
+        $this->assertEquals('INSERT INTO products (name, model) VALUES (?, ?), (?, ?)', $query->sql());
+        $this->assertEquals(['prod1', 'm1', 'prod2', 'm2'], $query->parameters());
+    }
 }
