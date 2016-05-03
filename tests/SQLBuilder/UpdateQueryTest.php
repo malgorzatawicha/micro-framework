@@ -13,7 +13,7 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     
     public function testClassExists()
     {
-        $this->assertInstanceOf('\MW\SQLBuilder\Update', $this->classBuilder());    
+        $this->assertInstanceOf('\MW\SQLBuilder\UpdateQuery', $this->classBuilder());    
     }
 
     public function testSql()

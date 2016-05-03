@@ -12,7 +12,7 @@ class InsertTest extends \PHPUnit_Framework_TestCase
     
     public function testClassExists()
     {
-        $this->assertInstanceOf('\MW\SQLBuilder\Insert', $this->classBuilder());    
+        $this->assertInstanceOf('\MW\SQLBuilder\InsertQuery', $this->classBuilder());    
     }
 
     public function testSql()

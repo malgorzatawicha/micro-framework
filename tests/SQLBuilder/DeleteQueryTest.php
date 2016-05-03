@@ -13,7 +13,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     
     public function testClassExists()
     {
-        $this->assertInstanceOf('\MW\SQLBuilder\Delete', $this->classBuilder());    
+        $this->assertInstanceOf('\MW\SQLBuilder\DeleteQuery', $this->classBuilder());    
     }
 
     public function testSql()

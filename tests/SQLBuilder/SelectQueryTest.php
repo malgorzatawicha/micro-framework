@@ -13,7 +13,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     
     public function testClassExists()
     {
-        $this->assertInstanceOf('\MW\SQLBuilder\Select', $this->classBuilder());    
+        $this->assertInstanceOf('\MW\SQLBuilder\SelectQuery', $this->classBuilder());    
     }
 
     public function testSql()
