@@ -20,4 +20,13 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
         $query = $this->classBuilder();
         $this->assertEquals('', $query->sql());
     }
+
+    public function testAddingTable()
+    {
+        $query = $this->classBuilder();
+
+        $query->table('products');
+
+        $this->assertEquals('DELETE FROM products', $query->sql());
+    }
 }
