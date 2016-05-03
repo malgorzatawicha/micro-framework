@@ -76,7 +76,7 @@ class InsertQuery extends Query
      */
     private function tableClause()
     {
-        return "INSERT INTO " . $this->clauses['table'] . " ";
+        return 'INSERT INTO ' . $this->clauses['table'] . ' ';
     }
 
     /**
@@ -85,7 +85,7 @@ class InsertQuery extends Query
     private function columnsClause()
     {
         $firstRow = reset($this->clauses['data']);
-        return "(" . implode(', ', array_keys($firstRow)) . ") ";
+        return '(' . implode(', ', array_keys($firstRow)) . ') ';
     }
 
     /**
@@ -98,7 +98,7 @@ class InsertQuery extends Query
             $result[] = $this->addRowSqlClause($row);
             $this->addRowParametersClause($row);
         }
-        return "VALUES " . implode(', ', $result) . ' ';
+        return 'VALUES ' . implode(', ', $result) . ' ';
     }
 
     /**
@@ -108,7 +108,7 @@ class InsertQuery extends Query
     private function addRowSqlClause($row)
     {
         $count = count(array_values($row));
-        return "(" . implode(', ', array_fill(0, $count, '?')) . ")";
+        return '(' . implode(', ', array_fill(0, $count, '?')) . ')';
     }
 
     /**

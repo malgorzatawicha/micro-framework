@@ -2,7 +2,6 @@
 
 use MW\SQLBuilder\DeleteQuery;
 use MW\SQLBuilder\InsertQuery;
-use MW\SQLBuilder\Query;
 use MW\SQLBuilder\SelectQuery;
 use MW\SQLBuilder\UpdateQuery;
 

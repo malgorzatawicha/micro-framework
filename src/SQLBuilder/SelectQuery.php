@@ -83,7 +83,7 @@ class SelectQuery extends Query
         }
         $strings = [];
         foreach ($this->clauses['select'] as $key => $value) {
-            $strings[] = $key . (!empty($value)?" AS " . $value:"");
+            $strings[] = $key . (!empty($value)?' AS ' . $value:'');
         }
         return 'SELECT ' . implode(', ', $strings) . ' ';
     }

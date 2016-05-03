@@ -45,6 +45,6 @@ class DeleteQuery extends Query
      */
     private function tableClause()
     {
-        return "DELETE FROM " . $this->clauses['table'] . " ";
+        return 'DELETE FROM ' . $this->clauses['table'] . ' ';
     }
 }
