@@ -11,10 +11,10 @@ use MW\SQLBuilder\UpdateQuery;
  */
 class SQLBuilderFactory
 {
-    const SELECT = 'select';
-    const INSERT = 'insert';
-    const UPDATE = 'update';
-    const DELETE = 'delete';
+    const SELECT = 'SelectQuery';
+    const INSERT = 'InsertQuery';
+    const UPDATE = 'UpdateQuery';
+    const DELETE = 'DeleteQuery';
 
     /**
      * @var Connection
@@ -37,17 +37,10 @@ class SQLBuilderFactory
      */
     public function newSqlBuilderInstance($type)
     {
-        switch ($type) {
-            case self::SELECT: 
-                return new SelectQuery($this->connection);
-            case self::INSERT:
-                return new InsertQuery($this->connection);
-            case self::UPDATE:
-                return new UpdateQuery($this->connection);
-            case self::DELETE:
-                return new DeleteQuery($this->connection);
+        $className = '\MW\SQLBuilder\\' . $type ;
+        if (class_exists($className)) {
+            return new $className($this->connection);    
         }
-        
         throw new UnrecognizedSqlQueryTypeException();
     }
 }
