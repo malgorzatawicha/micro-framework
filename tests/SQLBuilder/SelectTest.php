@@ -20,4 +20,13 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select = $this->classBuilder();
         $this->assertEquals('', $select->sql());
     }
+    
+    public function testAddingTable()
+    {
+        $select = $this->classBuilder();
+        
+        $select->table('products');
+        
+        $this->assertEquals('SELECT * FROM products', $select->sql());
+    }
 }
