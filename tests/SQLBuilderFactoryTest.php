@@ -1,13 +1,13 @@
 <?php namespace Tests;
 
 use MW\Connection;
-use MW\SQLBuilder;
+use MW\SQLBuilderFactory;
 
-class SQLBuilderTest extends \PHPUnit_Framework_TestCase
+class SQLBuilderFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassExists()
     {
-        $class = new SQLBuilder(new Connection());
+        $class = new SQLBuilderFactory(new Connection());
         $this->assertInstanceOf('\MW\SQLBuilder', $class);
     }
 }

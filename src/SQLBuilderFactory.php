@@ -1,6 +1,6 @@
 <?php namespace MW;
 
-class SQLBuilder
+class SQLBuilderFactory
 {
     private $connection;
     
