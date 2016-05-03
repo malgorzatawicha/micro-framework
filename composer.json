@@ -1,0 +1,10 @@
+{
+    "name": "margo/micro-framework",
+    "authors": [
+        {
+            "name": "malgorzata.wicha",
+            "email": "malgorzata.wicha@gmail.com"
+        }
+    ],
+    "require": {}
+}
