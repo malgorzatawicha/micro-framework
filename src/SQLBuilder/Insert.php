@@ -1,6 +1,6 @@
 <?php namespace MW\SQLBuilder;
 
-class Insert
+class Insert extends Query
 {
     
 }

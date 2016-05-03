@@ -1,6 +1,6 @@
 <?php namespace MW\SQLBuilder;
 
-class Select
+class Select extends Query
 {
     
 }

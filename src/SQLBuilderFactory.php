@@ -1,5 +1,10 @@
 <?php namespace MW;
 
+use MW\SQLBuilder\Delete;
+use MW\SQLBuilder\Insert;
+use MW\SQLBuilder\Select;
+use MW\SQLBuilder\Update;
+
 class SQLBuilderFactory
 {
     const SELECT = 'select';
@@ -18,13 +23,13 @@ class SQLBuilderFactory
     {
         switch ($type) {
             case self::SELECT: 
-                return null;
+                return new Select($this->connection);
             case self::INSERT:
-                return null;
+                return new Insert($this->connection);
             case self::UPDATE:
-                return null;
+                return new Update($this->connection);
             case self::DELETE:
-                return null;
+                return new Delete($this->connection);
         }
         
         throw new UnrecognizedSqlQueryTypeException();

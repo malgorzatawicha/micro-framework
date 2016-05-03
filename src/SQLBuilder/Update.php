@@ -1,6 +1,6 @@
 <?php namespace MW\SQLBuilder;
 
-class Update
+class Update extends Query
 {
     
 }

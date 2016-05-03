@@ -1,6 +1,6 @@
 <?php namespace MW\SQLBuilder;
 
-class Delete
+class Delete extends Query
 {
     
 }
