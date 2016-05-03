@@ -2,7 +2,7 @@
 
 class Select extends Query
 {
-    private $clauses = [
+    protected $clauses = [
         'select' => [],
         'table' => ['name' => '', 'alias' => ''],
         'where' => []

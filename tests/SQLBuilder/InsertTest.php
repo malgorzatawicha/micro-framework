@@ -20,4 +20,20 @@ class InsertTest extends \PHPUnit_Framework_TestCase
         $query = $this->classBuilder();
         $this->assertEquals('', $query->sql());
     }
+    
+    public function testAddingTable()
+    {
+        $query = $this->classBuilder();
+        $query->table('products');
+        $this->assertEquals('', $query->sql());
+    }
+
+    public function testAddingTableAndData()
+    {
+        $query = $this->classBuilder();
+        $query->table('products')
+            ->data(['name' => 'prod1', 'model' => 'm1']);
+        $this->assertEquals('INSERT INTO products (name, model) VALUES (?, ?)', $query->sql());
+        $this->assertEquals(['prod1', 'm1'], $query->parameters());
+    }
 }
