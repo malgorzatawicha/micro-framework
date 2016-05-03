@@ -6,5 +6,10 @@
             "email": "malgorzata.wicha@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "MW\\": "src/"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.3.*"
+    }
 }
