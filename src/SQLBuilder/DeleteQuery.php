@@ -3,10 +3,10 @@
 use MW\SQLBuilder\Traits\HasWhereClause;
 
 /**
- * Class Delete
+ * Class DeleteQuery
  * @package MW\SQLBuilder
  */
-class Delete extends Query
+class DeleteQuery extends Query
 {
     use HasWhereClause;
 

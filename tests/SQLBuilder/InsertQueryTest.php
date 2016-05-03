@@ -1,13 +1,13 @@
 <?php namespace Tests\SQLBuilder;
 
 use MW\Connection;
-use MW\SQLBuilder\Insert;
+use MW\SQLBuilder\InsertQuery;
 
 class InsertTest extends \PHPUnit_Framework_TestCase
 {
     private function classBuilder()
     {
-        return new Insert(new Connection());
+        return new InsertQuery(new Connection());
     }
     
     public function testClassExists()

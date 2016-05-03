@@ -2,13 +2,13 @@
 
 use MW\Connection;
 use MW\SQLBuilder\Criteria\Equals;
-use MW\SQLBuilder\Select;
+use MW\SQLBuilder\SelectQuery;
 
 class SelectTest extends \PHPUnit_Framework_TestCase
 {
     private function classBuilder()
     {
-        return new Select(new Connection());
+        return new SelectQuery(new Connection());
     }
     
     public function testClassExists()

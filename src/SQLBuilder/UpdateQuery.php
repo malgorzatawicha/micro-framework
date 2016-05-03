@@ -3,10 +3,10 @@
 use MW\SQLBuilder\Traits\HasWhereClause;
 
 /**
- * Class Update
+ * Class UpdateQuery
  * @package MW\SQLBuilder
  */
-class Update extends Query
+class UpdateQuery extends Query
 {
     use HasWhereClause;
 

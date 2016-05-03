@@ -2,13 +2,13 @@
 
 use MW\Connection;
 use MW\SQLBuilder\Criteria\Equals;
-use MW\SQLBuilder\Update;
+use MW\SQLBuilder\UpdateQuery;
 
 class UpdateTest extends \PHPUnit_Framework_TestCase
 {
     private function classBuilder()
     {
-        return new Update(new Connection());
+        return new UpdateQuery(new Connection());
     }
     
     public function testClassExists()

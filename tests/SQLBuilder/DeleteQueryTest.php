@@ -2,13 +2,13 @@
 
 use MW\Connection;
 use MW\SQLBuilder\Criteria\Equals;
-use MW\SQLBuilder\Delete;
+use MW\SQLBuilder\DeleteQuery;
 
 class DeleteTest extends \PHPUnit_Framework_TestCase
 {
     private function classBuilder()
     {
-        return new Delete(new Connection());
+        return new DeleteQuery(new Connection());
     }
     
     public function testClassExists()

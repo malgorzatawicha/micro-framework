@@ -3,10 +3,10 @@
 use MW\SQLBuilder\Traits\HasWhereClause;
 
 /**
- * Class Select
+ * Class SelectQuery
  * @package MW\SQLBuilder
  */
-class Select extends Query
+class SelectQuery extends Query
 {
     use HasWhereClause;
 

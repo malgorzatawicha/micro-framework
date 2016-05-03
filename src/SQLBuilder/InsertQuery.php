@@ -1,10 +1,10 @@
 <?php namespace MW\SQLBuilder;
 
 /**
- * Class Insert
+ * Class InsertQuery
  * @package MW\SQLBuilder
  */
-class Insert extends Query
+class InsertQuery extends Query
 {
     /**
      * @var array
