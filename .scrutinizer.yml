@@ -128,3 +128,5 @@ build:
                 coverage:
                     file: 'some-file'
                     format: 'php-clover'
+    environment:
+            php: '5.6.9'
