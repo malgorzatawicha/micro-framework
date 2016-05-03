@@ -3,6 +3,8 @@ filter:
 
 checks:
     php:
+        code_rating: true
+        duplication: true
         verify_property_names: true
         verify_argument_usable_as_reference: true
         verify_access_scope_valid: true
@@ -118,9 +120,11 @@ checks:
         assignment_of_null_return: true
         argument_type_checks: true
         align_assignments: true
-
-
-tools:
-    external_code_coverage:
-        timeout: 600
-        runs: 2
+build:
+    tests:
+        override:
+            -
+                command: 'phpunit --coverage-clover=some-file'
+                coverage:
+                    file: 'some-file'
+                    format: 'php-clover'
