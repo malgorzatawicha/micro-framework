@@ -8,6 +8,6 @@ class SQLBuilderFactoryTest extends \PHPUnit_Framework_TestCase
     public function testClassExists()
     {
         $class = new SQLBuilderFactory(new Connection());
-        $this->assertInstanceOf('\MW\SQLBuilder', $class);
+        $this->assertInstanceOf('\MW\SQLBuilderFactory', $class);
     }
 }
