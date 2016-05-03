@@ -2,21 +2,35 @@
 
 use MW\SQLBuilder\Traits\HasWhereClause;
 
+/**
+ * Class Delete
+ * @package MW\SQLBuilder
+ */
 class Delete extends Query
 {
     use HasWhereClause;
-    
+
+    /**
+     * @var array
+     */
     protected $clauses = [
         'table' => '',
         'where' => []
     ];
 
+    /**
+     * @param string $table
+     * @return $this
+     */
     public function table($table)
     {
         $this->clauses['table'] = $table;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function sql()
     {
         if (empty($this->clauses['table'])) {
@@ -26,6 +40,9 @@ class Delete extends Query
         return trim($this->tableClause() . $this->whereClause());
     }
 
+    /**
+     * @return string
+     */
     private function tableClause()
     {
         return "DELETE FROM {$this->clauses['table']} ";

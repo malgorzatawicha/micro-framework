@@ -2,15 +2,26 @@
 
 use MW\SQLBuilder\Traits\HasWhereClause;
 
+/**
+ * Class Select
+ * @package MW\SQLBuilder
+ */
 class Select extends Query
 {
     use HasWhereClause;
-    
+
+    /**
+     * @var array
+     */
     protected $clauses = [
         'select' => [],
         'table' => ['name' => '', 'alias' => ''],
         'where' => []
     ];
+
+    /**
+     * @return string
+     */
     public function sql()
     {
         if (!empty($this->clauses['table']['name'])) {
@@ -18,7 +29,12 @@ class Select extends Query
         }
         return '';
     }
-    
+
+    /**
+     * @param string $tableName
+     * @param string $tableAlias
+     * @return $this
+     */
     public function table($tableName, $tableAlias = '')
     {
         $this->clauses['table'] = [
@@ -28,6 +44,11 @@ class Select extends Query
         return $this;
     }
 
+    /**
+     * @param string|array $select
+     * @param string $alias
+     * @return $this
+     */
     public function select($select, $alias = '')
     {
         if (is_array($select)) {
@@ -43,11 +64,18 @@ class Select extends Query
         }
         return $this;
     }
-    
+
+    /**
+     * @param string $select
+     * @param string $alias
+     */
     private function addSelect($select, $alias = '') {
         $this->clauses['select'][$select] = $alias;
     }
-        
+
+    /**
+     * @return string
+     */
     private function selectClause()
     {
         if (empty($this->clauses['select'])) {
@@ -59,7 +87,10 @@ class Select extends Query
         }
         return 'SELECT ' . implode(', ', $strings) . ' ';
     }
-    
+
+    /**
+     * @return string
+     */
     private function tableClause()
     {
         return 'FROM ' . $this->clauses['table']['name'] . 
