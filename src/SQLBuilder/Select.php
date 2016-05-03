@@ -1,9 +1,11 @@
 <?php namespace MW\SQLBuilder;
 
-use MW\SQLBuilder\Criteria\Criteria;
+use MW\SQLBuilder\Traits\HasWhereClause;
 
 class Select extends Query
 {
+    use HasWhereClause;
+    
     protected $clauses = [
         'select' => [],
         'table' => ['name' => '', 'alias' => ''],
@@ -12,11 +14,7 @@ class Select extends Query
     public function sql()
     {
         if (!empty($this->clauses['table']['name'])) {
-            $result = $this->selectClause() . $this->tableClause();
-            if (!empty($this->clauses['where'])) {
-                $result .= $this->whereClause();
-            }
-            return trim($result);
+            return trim($this->selectClause() . $this->tableClause() . $this->whereClause());
         }
         return '';
     }
@@ -45,12 +43,6 @@ class Select extends Query
         }
         return $this;
     }
-
-    public function where(Criteria $criteria)
-    {
-        $this->clauses['where'][] = $criteria;
-        return $this;
-    }
     
     private function addSelect($select, $alias = '') {
         $this->clauses['select'][$select] = $alias;
@@ -74,17 +66,4 @@ class Select extends Query
         (!empty($this->clauses['table']['alias'])?' AS ' . $this->clauses['table']['alias']: '') . ' ';
     }
     
-    private function whereClause()
-    {
-        $result = [];
-        /** @var Criteria $criteria */
-        foreach ($this->clauses['where'] as $criteria) {
-            $result[] = $criteria->sql();
-            $parameters = $criteria->parameters();
-            if (!empty($parameters)) {
-                $this->parameters = array_merge($this->parameters, $parameters);
-            }
-        }
-        return "WHERE " . implode(' AND ', $result) . ' ';
-    }
 }

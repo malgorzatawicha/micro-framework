@@ -1,7 +1,12 @@
 <?php namespace MW\SQLBuilder;
 
+use MW\SQLBuilder\Criteria\Criteria;
+use MW\SQLBuilder\Traits\HasWhereClause;
+
 class Update extends Query
 {
+    use HasWhereClause;
+    
     protected $clauses = [
         'table' => '',
         'set' => [],
@@ -28,7 +33,7 @@ class Update extends Query
             return '';
         }
         
-        return trim($this->tableClause() . $this->setClause()); 
+        return trim($this->tableClause() . $this->setClause() . $this->whereClause()); 
     }
     
     private function tableClause()
@@ -43,7 +48,7 @@ class Update extends Query
             $strings[] = $this->addSetSql($key);
             $this->addSetParameter($value);
         }
-        return 'SET ' . implode(', ', $strings);
+        return 'SET ' . implode(', ', $strings) . ' ';
     }
     
     private function addSetSql($key)
