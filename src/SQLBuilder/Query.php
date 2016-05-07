@@ -39,7 +39,7 @@ abstract class Query
     abstract protected function canBuildSql();
     
     /**
-     * @return mixed
+     * @return string
      */
     public function sql()
     {
@@ -50,7 +50,7 @@ abstract class Query
         $result = '';
         foreach (array_keys($this->clauses) as $name) {
             $methodName = $name . 'Clause';
-            $result .= $this->$methodName();
+            $result    .= $this->$methodName();
         }
         return trim($result);
     }
