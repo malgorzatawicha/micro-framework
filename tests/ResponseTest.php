@@ -1,7 +1,6 @@
 <?php namespace Tests;
 
 
-use MW\Output;
 use MW\Response;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase

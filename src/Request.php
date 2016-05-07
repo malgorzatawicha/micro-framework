@@ -7,22 +7,17 @@
 class Request
 {
     /**
-     * @var array
+     * @var RequestValue
      */
-    private $query;
+    private $requestValue;
 
     /**
-     * @var array
-     */
-    private $input;
-    /**
      * Request constructor.
-     * @param array $data
+     * @param RequestValue $requestValue
      */
-    public function __construct(array $data)
+    public function __construct(RequestValue $requestValue)
     {
-        $this->query = isset($data['_GET'])?$data['_GET']:[];
-        $this->input = isset($data['_POST'])?$data['_POST']:[];
+        $this->requestValue = $requestValue;
     }
 
     /**
@@ -30,7 +25,7 @@ class Request
      */
     private function all()
     {
-        return $this->query + $this->input;
+        return $this->requestValue->get() + $this->requestValue->post();
     }
 
     /**
@@ -54,5 +49,13 @@ class Request
             return $data[$name];
         }
         return null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUri()
+    {
+        return trim($this->requestValue->requestUri(), '/');
     }
 }

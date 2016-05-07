@@ -5,38 +5,84 @@ use MW\Request;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-    private function createRequestObject($get = [], $post = [])
+    private function getRequestValueMock()
     {
-        return new Request(['_GET' => $get, '_POST' => $post]);
+        return $this->getMockBuilder('\MW\RequestValue')
+            ->setMethods(['get', 'post', 'requestUri'])
+            ->getMock();
     }
+    
     public function testClassExists()
     {
-        $request = new Request([]);
+        $request = new Request($this->getRequestValueMock());
         $this->assertInstanceOf('\MW\Request', $request);
     }
 
     public function testHasGetParameter()
     {
-        $request = $this->createRequestObject(['dummy' => 'existent']);
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('get')->willReturn(['dummy' => 'existent']);
+        $mock->expects($this->once())->method('post')->willReturn([]);
+        
+        $request = new Request($mock);
         $this->assertTrue($request->has('dummy'));
     }
     
     public function testHasNotGetParameter()
     {
-        $request = $this->createRequestObject(['dummy' => 'existent']);
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('get')->willReturn(['dummy' => 'existent']);
+        $mock->expects($this->once())->method('post')->willReturn([]);
+
+        $request = new Request($mock);
         $this->assertFalse($request->has('nonexistent'));
     }
     
     public function testGetParameter()
     {
-        $request = $this->createRequestObject(['dummy' => 'existent'], ['dummy2' => 'existent2']);
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->exactly(2))->method('get')->willReturn(['dummy' => 'existent']);
+        $mock->expects($this->exactly(2))->method('post')->willReturn(['dummy2' => 'existent2']);
+
+        $request = new Request($mock);
         $this->assertEquals('existent', $request->dummy);
         $this->assertEquals('existent2', $request->dummy2);
     }
 
     public function testGetNonExistentParameter()
     {
-        $request = $this->createRequestObject(['dummy' => 'existent'], ['dummy2' => 'existent2']);
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('get')->willReturn(['dummy' => 'existent']);
+        $mock->expects($this->once())->method('post')->willReturn(['dummy2' => 'existent2']);
+
+        $request = new Request($mock);
         $this->assertNull($request->dummy3);
+    }
+
+    public function testGetUri()
+    {
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('requestUri')->willReturn('dummy');
+
+        $request = new Request($mock);
+        $this->assertEquals('dummy', $request->getUri());
+    }
+
+    public function testGetUriWithSlashAtEnd()
+    {
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('requestUri')->willReturn('dummy/');
+
+        $request = new Request($mock);
+        $this->assertEquals('dummy', $request->getUri());
+    }
+
+    public function testGetUriWithSlashAtStart()
+    {
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('requestUri')->willReturn('/dummy/');
+
+        $request = new Request($mock);
+        $this->assertEquals('dummy', $request->getUri());
     }
 }
