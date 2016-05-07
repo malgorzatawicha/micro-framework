@@ -21,8 +21,8 @@ class Request
      */
     public function __construct(array $data)
     {
-        $this->query = $data['_GET'];
-        $this->input = $data['_POST'];
+        $this->query = isset($data['_GET'])?$data['_GET']:[];
+        $this->input = isset($data['_POST'])?$data['_POST']:[];
     }
 
     /**
