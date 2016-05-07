@@ -11,7 +11,8 @@
     "autoload": {
         "psr-4": {
           "MW\\": "src/",
-          "App\\": "app/"
+          "App\\": "app/",
+          "Tests\\": "tests/"
         }
     },
     "require-dev": {
