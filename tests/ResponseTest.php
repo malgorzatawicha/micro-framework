@@ -3,7 +3,7 @@
 
 use MW\Response;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends BaseTest
 {
     private function getOutputMock()
     {
