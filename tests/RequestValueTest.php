@@ -3,7 +3,7 @@
 
 use MW\RequestValue;
 
-class RequestValueTest extends \PHPUnit_Framework_TestCase
+class RequestValueTest extends BaseTest
 {
     public function testClassExists()
     {

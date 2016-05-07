@@ -2,8 +2,9 @@
 
 use MW\Connection;
 use MW\SQLBuilder\InsertQuery;
+use Tests\BaseTest;
 
-class InsertTest extends \PHPUnit_Framework_TestCase
+class InsertTest extends BaseTest
 {
     private function classBuilder()
     {

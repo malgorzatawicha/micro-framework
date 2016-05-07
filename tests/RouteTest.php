@@ -3,15 +3,12 @@
 
 use MW\Route;
 
-class RouteTest extends \PHPUnit_Framework_TestCase
+class RouteTest extends BaseTest
 {
     
-    private function getRequestMock($uri = '')
+    protected function getRequestMock($uri = '')
     {
-        $mock = $this->getMockBuilder('\MW\Request')
-            ->setConstructorArgs(['requestValue' => $this->getMockBuilder('\MW\RequestValue')->getMock()])
-            ->setMethods(['getUri'])
-            ->getMock();
+        $mock = parent::getRequestMock();
 
         $mock->expects($this->once())->method('getUri')->willReturn($uri);
     

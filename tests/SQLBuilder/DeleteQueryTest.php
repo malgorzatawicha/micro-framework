@@ -3,8 +3,9 @@
 use MW\Connection;
 use MW\SQLBuilder\Criteria\Equals;
 use MW\SQLBuilder\DeleteQuery;
+use Tests\BaseTest;
 
-class DeleteTest extends \PHPUnit_Framework_TestCase
+class DeleteTest extends BaseTest
 {
     private function classBuilder()
     {

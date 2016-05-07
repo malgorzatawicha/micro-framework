@@ -3,15 +3,8 @@
 
 use MW\Request;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends BaseTest
 {
-    private function getRequestValueMock()
-    {
-        return $this->getMockBuilder('\MW\RequestValue')
-            ->setMethods(['get', 'post', 'requestUri'])
-            ->getMock();
-    }
-    
     public function testClassExists()
     {
         $request = new Request($this->getRequestValueMock());

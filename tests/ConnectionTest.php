@@ -2,7 +2,7 @@
 
 use MW\Connection;
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends BaseTest
 {
     public function testClassExists()
     {

@@ -1,8 +1,9 @@
 <?php namespace Tests\SQLBuilder\Criteria;
 
 use MW\SQLBuilder\Criteria\Equals;
+use Tests\BaseTest;
 
-class EqualsTest extends \PHPUnit_Framework_TestCase
+class EqualsTest extends BaseTest
 {
     public function testClassExists()
     {

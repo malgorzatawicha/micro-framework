@@ -3,14 +3,8 @@
 
 use MW\Router;
 
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends BaseTest
 {
-    private function getRequestMock()
-    {
-        return $this->getMockBuilder('\MW\Request')
-            ->setConstructorArgs(['requestValue' => $this->getMockBuilder('\MW\RequestValue')->getMock()])
-            ->getMock();
-    }
     private function getRouteMock($match, $controller)
     {
         $mock = $this->getMockBuilder('\MW\Route')
@@ -19,9 +13,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $mock->expects($this->once())->method('match')->willReturn($match);
-
         
-
         return $mock;
     }
     
@@ -41,5 +33,17 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $result = $router->execute($this->getRequestMock());
         
         $this->assertEquals('testController', $result->getControllerClass());
+    }
+
+    public function testMatchFalse()
+    {
+        $router = new Router([
+            $this->getRouteMock(false, 'dummyController'),
+            $this->getRouteMock(false, 'testController'),
+        ]);
+
+        $result = $router->execute($this->getRequestMock());
+
+        $this->assertNull($result);
     }
 }

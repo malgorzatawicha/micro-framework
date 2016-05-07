@@ -3,7 +3,7 @@
 use MW\Connection;
 use MW\SQLBuilderFactory;
 
-class SQLBuilderFactoryTest extends \PHPUnit_Framework_TestCase
+class SQLBuilderFactoryTest extends BaseTest
 {
     private function buildClass()
     {

@@ -3,8 +3,9 @@
 use MW\Connection;
 use MW\SQLBuilder\Criteria\Equals;
 use MW\SQLBuilder\UpdateQuery;
+use Tests\BaseTest;
 
-class UpdateTest extends \PHPUnit_Framework_TestCase
+class UpdateTest extends BaseTest
 {
     private function classBuilder()
     {
