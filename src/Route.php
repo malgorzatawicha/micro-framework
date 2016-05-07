@@ -23,7 +23,7 @@ class Route
      */
     public function __construct($pattern, $controller)
     {
-        $this->pattern = $pattern;
+        $this->pattern    = $pattern;
         $this->controller = $controller;
     }
 
@@ -33,7 +33,7 @@ class Route
      */
     public function match(Request $request)
     {
-        return preg_match("/^" . $this->pattern . "$/", $request->getUri()) == 1;
+        return preg_match('/^' . $this->pattern . '$/', $request->getUri()) == 1;
     }
 
     /**

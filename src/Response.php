@@ -7,6 +7,11 @@
 class Response
 {
     /**
+     * @var Output
+     */
+    private $output;
+
+    /**
      * @var string
      */
     private $content;
@@ -65,7 +70,13 @@ class Response
         foreach ($this->headers as $key => $value) {
             $this->output->header($key.': '.$value, false, $this->status);
         }
-        $this->output->header(sprintf('HTTP/1.0 %s %s', $this->status, $this->statuses[$this->status]), true, $this->status);
+        $this->output->header(
+            sprintf(
+                'HTTP/1.0 %s %s', $this->status, $this->statuses[$this->status]
+            ),
+            true,
+            $this->status
+        );
 
     }
     

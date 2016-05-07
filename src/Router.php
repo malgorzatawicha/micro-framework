@@ -20,6 +20,10 @@ class Router
         $this->routes = $routes;
     }
 
+    /**
+     * @param Request $request
+     * @return Route|null
+     */
     public function execute(Request $request)
     {
         /** @var Route $route */

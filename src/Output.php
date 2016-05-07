@@ -9,11 +9,11 @@ class Output
     /**
      * @param $string
      * @param bool $replace
-     * @param null $http_response_code
+     * @param null $httpResponseCode
      */
-    public function header($string, $replace = true, $http_response_code = null)
+    public function header($string, $replace = true, $httpResponseCode = null)
     {
-        header($string, $replace, $http_response_code);
+        header($string, $replace, $httpResponseCode);
     }
 
     /**
