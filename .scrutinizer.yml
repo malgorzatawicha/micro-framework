@@ -31,7 +31,6 @@ checks:
         require_scope_for_properties: true
         require_scope_for_methods: true
         require_php_tag_first: true
-        remove_extra_empty_lines: true
         psr2_class_declaration: true
         psr2_switch_declaration: true
         property_assignments: true
@@ -61,7 +60,7 @@ checks:
             minimum: '3'
         no_property_on_interface: true
         no_non_implemented_abstract_methods: true
-        no_new_line_at_end_of_file: true
+        no_new_line_at_end_of_file: false
         no_long_variable_names:
             maximum: '20'
         no_goto: true
