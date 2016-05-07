@@ -28,12 +28,12 @@ class Route
     }
 
     /**
-     * @param $uri
+     * @param Request $request
      * @return bool
      */
-    public function match($uri)
+    public function match(Request $request)
     {
-        return preg_match("/^" . $this->pattern . "$/", $uri) == 1;
+        return preg_match("/^" . $this->pattern . "$/", $request->getUri()) == 1;
     }
 
     /**
