@@ -6,6 +6,7 @@
             "email": "malgorzata.wicha@gmail.com"
         }
     ],
+    "license": "MIT",
     "description": "Educational micro-framework. It is example of creating fully clean and testable code.",
     "autoload": {
         "psr-4": {"MW\\": "src/"}
