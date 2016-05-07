@@ -29,21 +29,17 @@ class DeleteQuery extends Query
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function sql()
+    protected function canBuildSql()
     {
-        if (empty($this->clauses['table'])) {
-            return '';
-        }
-
-        return trim($this->tableClause() . $this->whereClause());
+        return (!empty($this->clauses['table']));
     }
 
     /**
      * @return string
      */
-    private function tableClause()
+    protected function tableClause()
     {
         return 'DELETE FROM ' . $this->clauses['table'] . ' ';
     }

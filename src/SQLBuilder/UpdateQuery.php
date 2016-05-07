@@ -41,22 +41,16 @@ class UpdateQuery extends Query
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function sql()
+
+    protected function canBuildSql()
     {
-        if (empty($this->clauses['table']) || empty($this->clauses['set'])) {
-            return '';
-        }
-        
-        return trim($this->tableClause() . $this->setClause() . $this->whereClause()); 
+        return (!empty($this->clauses['table']) && !empty($this->clauses['set']));
     }
 
     /**
      * @return string
      */
-    private function tableClause()
+    protected function tableClause()
     {
         return 'UPDATE ' . $this->clauses['table']. ' ';
     }
@@ -64,7 +58,7 @@ class UpdateQuery extends Query
     /**
      * @return string
      */
-    private function setClause()
+    protected function setClause()
     {
         $strings = [];
         foreach ($this->clauses['set'] as $key => $value) {

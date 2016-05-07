@@ -19,15 +19,9 @@ class SelectQuery extends Query
         'where' => []
     ];
 
-    /**
-     * @return string
-     */
-    public function sql()
+    protected function canBuildSql()
     {
-        if (!empty($this->clauses['table']['name'])) {
-            return trim($this->selectClause() . $this->tableClause() . $this->whereClause());
-        }
-        return '';
+        return !empty($this->clauses['table']['name']);
     }
 
     /**
@@ -76,7 +70,7 @@ class SelectQuery extends Query
     /**
      * @return string
      */
-    private function selectClause()
+    protected function selectClause()
     {
         if (empty($this->clauses['select'])) {
             return 'SELECT * ';
@@ -91,7 +85,7 @@ class SelectQuery extends Query
     /**
      * @return string
      */
-    private function tableClause()
+    protected function tableClause()
     {
         return 'FROM ' . $this->clauses['table']['name'] . 
         (!empty($this->clauses['table']['alias'])?' AS ' . $this->clauses['table']['alias']: '') . ' ';

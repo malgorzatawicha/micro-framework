@@ -17,6 +17,7 @@ abstract class Query
      * @var array
      */
     protected $clauses = [];
+    
 
     /**
      * @var array
@@ -33,9 +34,26 @@ abstract class Query
     }
 
     /**
+     * @return bool
+     */
+    abstract protected function canBuildSql();
+    
+    /**
      * @return mixed
      */
-    abstract public function sql();
+    public function sql()
+    {
+        if (!$this->canBuildSql()) {
+            return '';
+        }
+        
+        $result = '';
+        foreach (array_keys($this->clauses) as $name) {
+            $methodName = $name . 'Clause';
+            $result .= $this->$methodName();
+        }
+        return trim($result);
+    }
 
     /**
      * @return array

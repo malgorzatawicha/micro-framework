@@ -12,7 +12,6 @@ class InsertQuery extends Query
     protected $clauses = [
         'table' => '',
         'data' => [
-
         ]
     ];
 
@@ -30,12 +29,13 @@ class InsertQuery extends Query
      * @param array $data
      * @return $this
      */
-    public function data(array $data) {
+    public function data(array $data)
+    {
 
         if (is_numeric(key($data))) {
             return $this->multi($data);
         }
-         
+
         $this->addData($data);
         return $this;
     }
@@ -49,7 +49,7 @@ class InsertQuery extends Query
         foreach ($data as $row) {
             $this->addData($row);
         }
-        return $this;    
+        return $this;
     }
 
     /**
@@ -61,20 +61,25 @@ class InsertQuery extends Query
     }
 
     /**
-     * @return string
+     * @return bool
      */
-    public function sql()
+    protected function canBuildSql()
     {
-        if (empty($this->clauses['table']) || empty($this->clauses['data'])) {
-            return '';
-        }
-        return trim($this->tableClause() . $this->columnsClause() . $this->valuesClause());
+        return (!empty($this->clauses['table']) && !empty($this->clauses['data']));
     }
 
     /**
      * @return string
      */
-    private function tableClause()
+    protected function dataClause() 
+    {
+        return $this->columnsClause() . $this->valuesClause();
+    }
+    
+    /**
+     * @return string
+     */
+    protected function tableClause()
     {
         return 'INSERT INTO ' . $this->clauses['table'] . ' ';
     }
@@ -82,7 +87,7 @@ class InsertQuery extends Query
     /**
      * @return string
      */
-    private function columnsClause()
+    protected function columnsClause()
     {
         $firstRow = reset($this->clauses['data']);
         return '(' . implode(', ', array_keys($firstRow)) . ') ';
@@ -91,7 +96,7 @@ class InsertQuery extends Query
     /**
      * @return string
      */
-    private function valuesClause()
+    protected function valuesClause()
     {
         $result = [];
         foreach ($this->clauses['data'] as $row) {
