@@ -17,12 +17,14 @@ $di->addService('router', function() use($di) {
 
 $di->addService('\App\Controller\HomeController', function() use($di) {
     return new \App\Controllers\HomeController(
-        $di->getService('request')
+        $di->getService('request'),
+        $di->getService('response')
     );
 });
 
 $di->addService('\App\Controller\GetFooController', function() use($di) {
    return new \App\Controllers\GetFooController(
-       $di->getService('request')
+       $di->getService('request'),
+       $di->getService('response')
    ); 
 });

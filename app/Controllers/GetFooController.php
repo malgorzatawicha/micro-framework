@@ -1,6 +1,8 @@
 <?php namespace App\Controllers;
 
-class GetFooController
+use MW\Controller;
+
+class GetFooController extends Controller
 {
     
 }
