@@ -58,4 +58,20 @@ class Request
     {
         return trim($this->requestValue->requestUri(), '/');
     }
+
+    /**
+     * @return bool
+     */
+    public function isGet()
+    {
+        return empty($this->requestValue->post());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPost()
+    {
+        return !empty($this->requestValue->post());
+    }
 }

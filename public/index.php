@@ -8,6 +8,8 @@ $request = $di->getService('request');
 /** @var \MW\Router $router */
 $router = $di->getService('router');
 
-$route = $router->execute($request);
+$controller = $di->getNewService($router->execute($request));
 
-$controller = $di->getNewService($route->getControllerClass());
+/** @var \MW\Response $response */
+$response = $controller->execute();
+$response->send();

@@ -78,4 +78,40 @@ class RequestTest extends BaseTest
         $request = new Request($mock);
         $this->assertEquals('dummy', $request->getUri());
     }
+
+    public function testIsPostTrue()
+    {
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('post')->willReturn(['dummy2' => 'existent2']);
+
+        $request = new Request($mock);
+        $this->assertTrue($request->isPost());
+    }
+
+    public function testIsPostFalse()
+    {
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('post')->willReturn([]);
+
+        $request = new Request($mock);
+        $this->assertFalse($request->isPost());
+    }
+
+    public function testIsGetFalse()
+    {
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('post')->willReturn(['dummy2' => 'existent2']);
+
+        $request = new Request($mock);
+        $this->assertFalse($request->isGet());
+    }
+
+    public function testIsGetTrue()
+    {
+        $mock = $this->getRequestValueMock();
+        $mock->expects($this->once())->method('post')->willReturn([]);
+
+        $request = new Request($mock);
+        $this->assertTrue($request->isGet());
+    }
 }

@@ -30,3 +30,11 @@ $di->addService('\App\Controller\GetFooController', function() use($di) {
     $response = $di->getService('response');
    return new \App\Controllers\GetFooController($request, $response);
 });
+
+$di->addService('\App\Controller\PostFooController', function() use($di) {
+    /** @var \MW\Request $request */
+    $request = $di->getService('request');
+    /** @var \MW\Response $response */
+    $response = $di->getService('response');
+    return new \App\Controllers\PostFooController($request, $response);
+});

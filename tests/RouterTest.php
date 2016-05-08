@@ -5,18 +5,6 @@ use MW\Router;
 
 class RouterTest extends BaseTest
 {
-    private function getRouteMock($match, $controller)
-    {
-        $mock = $this->getMockBuilder('\MW\Route')
-            ->setConstructorArgs(['pattern' => '', 'controller' => $controller])
-            ->setMethods(['match'])
-            ->getMock();
-
-        $mock->expects($this->once())->method('match')->willReturn($match);
-        
-        return $mock;
-    }
-    
     public function testClassExists()
     {
         $router = new Router([]);
@@ -26,23 +14,70 @@ class RouterTest extends BaseTest
     public function testMatchTrue()
     {
         $router = new Router([
-            $this->getRouteMock(false, 'dummyController'),
-            $this->getRouteMock(true, 'testController'),
+            'dummyUrl' => 'dummyController'
         ]);
-
-        $result = $router->execute($this->getRequestMock());
         
-        $this->assertEquals('testController', $result->getControllerClass());
+        $request = $this->getRequestMock();
+        $request->expects($this->once())->method('getUri')->willReturn('dummyUrl');
+        
+        $result = $router->execute($request);
+        
+        $this->assertEquals('dummyController', $result);
     }
 
     public function testMatchFalse()
     {
         $router = new Router([
-            $this->getRouteMock(false, 'dummyController'),
-            $this->getRouteMock(false, 'testController'),
+            'dummy2Url' => 'dummy2Controller'
+        ]);
+        
+        $request = $this->getRequestMock();
+        $request->expects($this->once())->method('getUri')->willReturn('dummyUrl');
+        
+        $result = $router->execute($request);
+        $this->assertNull($result);
+    }
+
+    public function testHttpGetMethodMatchTrue()
+    {
+        $router = new Router([
+            'get@dummyUrl' => 'dummyController'
+        ]);
+        
+        $request = $this->getRequestMock();
+        $request->expects($this->once())->method('getUri')->willReturn('dummyUrl');
+        $request->expects($this->once())->method('isGet')->willReturn(true);
+
+        $result = $router->execute($request);
+
+        $this->assertEquals('dummyController', $result);
+    }
+
+    public function testHttpGetMethodMatchFalse()
+    {
+        $router = new Router([
+            'get@dummyUrl' => 'dummyController'
+        ]);
+        
+        $request = $this->getRequestMock();
+        $request->expects($this->never())->method('getUri');
+        $request->expects($this->once())->method('isGet')->willReturn(false);
+
+        $result = $router->execute($request);
+
+        $this->assertNull($result);
+    }
+
+    public function testNonExistingHttpMethodMatchFalse()
+    {
+        $router = new Router([
+            'nonExisting@dummyUrl' => 'dummyController'
         ]);
 
-        $result = $router->execute($this->getRequestMock());
+        $request = $this->getRequestMock();
+        $request->expects($this->never())->method('getUri');
+
+        $result = $router->execute($request);
 
         $this->assertNull($result);
     }

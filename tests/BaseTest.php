@@ -14,7 +14,7 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
     {
         $mock = $this->getMockBuilder('\MW\Request')
             ->setConstructorArgs(['requestValue' => $this->getRequestValueMock()])
-            ->setMethods(['getUri'])
+            ->setMethods(['getUri', 'isGet', 'isPost'])
             ->getMock();
         return $mock;
     }

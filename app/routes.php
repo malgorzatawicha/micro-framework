@@ -1,7 +1,6 @@
 <?php
-use MW\Route;
-
 return [
-   'homeRoute' => new Route('', 'HomeController'),
-   'fooRoute' => new Route('foo', 'GetFooController')  
+    'get@' => '\App\HomeController',
+    'get@foo' => '\App\GetFooController',
+    'post@foo' => '\App\PostFooController',
 ];
