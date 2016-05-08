@@ -16,15 +16,17 @@ $di->addService('router', function() use($di) {
 });
 
 $di->addService('\App\Controller\HomeController', function() use($di) {
-    return new \App\Controllers\HomeController(
-        $di->getService('request'),
-        $di->getService('response')
-    );
+    /** @var \MW\Request $request */
+    $request = $di->getService('request');
+    /** @var \MW\Response $response */
+    $response = $di->getService('response');
+    return new \App\Controllers\HomeController($request, $response);
 });
 
 $di->addService('\App\Controller\GetFooController', function() use($di) {
-   return new \App\Controllers\GetFooController(
-       $di->getService('request'),
-       $di->getService('response')
-   ); 
+    /** @var \MW\Request $request */
+    $request = $di->getService('request');
+    /** @var \MW\Response $response */
+    $response = $di->getService('response');
+   return new \App\Controllers\GetFooController($request, $response);
 });
