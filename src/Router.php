@@ -59,7 +59,7 @@ class Router
      */
     private function testRequestAgainstHttpMethod($httpMethod, Request $request)
     {
-        $method = "is" . ucfirst($httpMethod);
+        $method = 'is' . ucfirst($httpMethod);
         return (method_exists($request, $method) && $request->$method());
     }
 
