@@ -11,7 +11,7 @@ $di->addService('response', function() use($di) {
 
 
 $di->addService('router', function() use($di) {
-    $routes = require __DIR__ . "/routes.php";
+    $routes = require __DIR__ . '/routes.php';
     return new \MW\Router($routes);
 });
 
