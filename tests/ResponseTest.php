@@ -5,12 +5,6 @@ use MW\Response;
 
 class ResponseTest extends BaseTest
 {
-    private function getOutputMock()
-    {
-        return $this->getMockBuilder('\MW\Output')
-            ->setMethods(['header', 'content'])
-            ->getMock();
-    }
     public function testClassExists()
     {
         $response = new Response($this->getOutputMock());

@@ -18,4 +18,11 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         return $mock;
     }
+
+    protected function getOutputMock()
+    {
+        return $this->getMockBuilder('\MW\Output')
+            ->setMethods(['header', 'content'])
+            ->getMock();
+    }
 }
