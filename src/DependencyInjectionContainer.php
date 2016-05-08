@@ -14,6 +14,7 @@ class DependencyInjectionContainer
     /**
      * @param $name
      * @param callable $callable
+     * @return bool
      */
     public function addService($name, callable $callable)
     {
@@ -21,6 +22,7 @@ class DependencyInjectionContainer
             'creationLogic' => $callable,
             'loaded' => false
         ];
+        return true;
     }
 
     /**
