@@ -2,5 +2,6 @@
 use MW\Route;
 
 return [
-  'fooRoute' => new Route('foo', "GetFooController")  
+   'homeRoute' => new Route('', 'HomeController'),
+   'fooRoute' => new Route('foo', "GetFooController")  
 ];

@@ -11,6 +11,12 @@ $di->addService('router', function() use($di) {
     return new \MW\Router($routes);
 });
 
+$di->addService('\App\Controller\HomeController', function() use($di) {
+    return new \App\Controllers\HomeController(
+        $di->getService('request')
+    );
+});
+
 $di->addService('\App\Controller\GetFooController', function() use($di) {
    return new \App\Controllers\GetFooController(
        $di->getService('request')
