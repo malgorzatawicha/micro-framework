@@ -33,7 +33,7 @@ class DependencyInjectionContainer
     {
         if (array_key_exists($name, $this->services))
         {
-            if ($this->services['loaded'] !== false) {
+            if ($this->services[$name]['loaded'] !== false) {
                 return $this->getNewService($name);
             }
             return $this->services[$name]['loaded'];
