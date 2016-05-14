@@ -1,23 +1,29 @@
 <?php namespace MW\Commands;
 
 use MW\DirectoryIteratorFactory;
+use MW\Output;
 
 class HelpCommand extends Command
 {
-    public function __construct(DirectoryIteratorFactory $directoryIteratorFactory, array $arguments)
+    private $directoryIteratorFactory;
+    private $output;
+    private $searchPaths;
+    
+    public function __construct(
+        DirectoryIteratorFactory $directoryIteratorFactory,
+        Output $output,
+        array $searchPaths
+    )
     {
-        parent::__construct($arguments);
+        $this->directoryIteratorFactory = $directoryIteratorFactory;
+        $this->output = $output;
+        $this->searchPaths = $searchPaths;
     }
 
-    public function execute()
-    {
-        $searchPaths = [
-            __DIR__,
-            realpath(__DIR__ . '/../../app/Commands')
-        ];
-        
+    public function execute(array $arguments = [])
+    {        
         $commands = [];
-        foreach ($searchPaths as $path) {
+        foreach ($this->searchPaths as $path) {
             $files = $this->findAllFilesInDirectory($path);
             $commands = array_merge($commands, $this->makeCommands($path, $files));
         }
@@ -28,17 +34,7 @@ class HelpCommand extends Command
     private function findAllFilesInDirectory($directory)
     {
         $result = [];
-        $dir = new \RecursiveIteratorIterator(
-            new \RecursiveRegexIterator(
-                new \RecursiveDirectoryIterator(
-                    $directory,
-                    \RecursiveDirectoryIterator::FOLLOW_SYMLINKS
-                ),
-                // match both php file extensions and directories
-                '#(?<!/)\.php$|^[^\.]*$#i'
-            ),
-            true
-        );
+        $dir = $this->directoryIteratorFactory->getPhpDirectoryIterator($directory);
         // output all matches
         if (!empty($dir)) {
             foreach ($dir as $d) {
@@ -66,7 +62,7 @@ class HelpCommand extends Command
     private function printCommands(array $commands = [])
     {
         foreach ($commands as $command) {
-            echo $command . "\n";
+            $this->output->content($command . "\n");
         }
     }
 }

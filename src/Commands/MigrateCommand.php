@@ -9,13 +9,12 @@ class MigrateCommand extends Command
 {
     protected $sqlBuilderFactory;
     
-    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $arguments)
+    public function __construct(SQLBuilderFactory $SQLBuilderFactory)
     {
-        parent::__construct($arguments);
         $this->sqlBuilderFactory = $SQLBuilderFactory;
     }
     
-    public function execute()
+    public function execute(array $arguments = [])
     {
         $migrationsInDb = $this->getMigrationsInDb();
 

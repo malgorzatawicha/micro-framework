@@ -49,11 +49,11 @@ class CommandDispatcher
                 if ($this->dependencyInjectionContainer->hasService($className)) {
                     $command = $this->dependencyInjectionContainer->getNewService($className);
                 } else {
-                    $command = new $className($this->arguments);    
+                    $command = new $className();    
                 }
                 
                 if ($command instanceof Command) {
-                    return $command->execute();
+                    return $command->execute($this->arguments);
                 }
             }
         }
