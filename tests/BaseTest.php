@@ -26,6 +26,24 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
             ->getMock();
     }
     
+    protected function getStmtMockForFetchAll($result)
+    {
+        $mock = $this->getMock('PDOStatement');
+        $mock->expects($this->any())
+            ->method('fetchAll')
+            ->will($this->returnValue($result));
+        return $mock;
+    }
+    
+    protected function getPDOMockForFetchAll($result)
+    {
+        $mock = $this->getMock('mockPDO');
+        $mock->expects($this->any())
+            ->method('prepare')
+            ->will($this->returnValue($this->getStmtMockForFetchAll($result)));
+        
+    }
+    
     protected function getPDOMock()
     {
         return $this->getMockBuilder('\Tests\MockPDO')->getMock();
