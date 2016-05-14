@@ -22,8 +22,14 @@ class ConnectionFactory
 
         $config = $this->configs[$name];
 
+        if (empty($config['driver'])) {
+            throw new ConnectionConfigurationException;
+        }
         $className = '\MW\Connection\\' . ucfirst($config['driver']) . 'Connection';
         
+        if (!class_exists($className)) {
+            throw new ConnectionConfigurationException;
+        }
         return new $className($this->pdoFactory->getPDO($config));
     }
 }
