@@ -1,6 +1,6 @@
 <?php namespace MW\Commands;
 
-class HelpCommand implements Command
+class HelpCommand extends Command
 {
     public function execute()
     {

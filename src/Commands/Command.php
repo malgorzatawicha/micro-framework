@@ -1,6 +1,17 @@
 <?php namespace MW\Commands;
 
-interface Command
+use MW\Connection;
+
+abstract class Command
 {
-    public function execute();
+    protected $arguments;
+    protected $connection;
+    
+    public function __construct(Connection $connection, array $arguments = [])
+    {
+        $this->connection = $connection;
+        $this->arguments = $arguments;
+    }
+
+    abstract public function execute();
 }
