@@ -7,6 +7,14 @@ use MW\SQLBuilderFactory;
 
 class MigrateCommand extends Command
 {
+    protected $sqlBuilderFactory;
+    
+    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $arguments)
+    {
+        parent::__construct($arguments);
+        $this->sqlBuilderFactory = $SQLBuilderFactory;
+    }
+    
     public function execute()
     {
         $migrationsInDb = $this->getMigrationsInDb();

@@ -1,18 +1,18 @@
 <?php namespace MW\Commands;
 
-use MW\SQLBuilderFactory;
+use MW\DependencyInjectionContainer;
 
 class CommandDispatcher
 {
     private $arguments;
-    private $sqlBuilderFactory;
+    private $dependencyInjectionContainer;
     private $searchPaths = [
         '\App\Commands',
         '\MW\Commands'
     ];
-    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $arguments = [])
+    public function __construct(DependencyInjectionContainer $dependencyInjectionContainer, array $arguments = [])
     {
-        $this->sqlBuilderFactory = $SQLBuilderFactory;
+        $this->dependencyInjectionContainer = $dependencyInjectionContainer;
         $this->arguments = $arguments;
     }
 
@@ -46,7 +46,12 @@ class CommandDispatcher
         foreach ($this->searchPaths as $path) {
             $className = $this->buildClassName($path, $commandName);
             if (class_exists($className)) {
-                $command = new $className($this->sqlBuilderFactory, $this->arguments);
+                if ($this->dependencyInjectionContainer->hasService($className)) {
+                    $command = $this->dependencyInjectionContainer->getNewService($className);
+                } else {
+                    $command = new $className($this->arguments);    
+                }
+                
                 if ($command instanceof Command) {
                     return $command->execute();
                 }

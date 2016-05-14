@@ -1,7 +1,14 @@
 <?php namespace MW\Commands;
 
+use MW\DirectoryIteratorFactory;
+
 class HelpCommand extends Command
 {
+    public function __construct(DirectoryIteratorFactory $directoryIteratorFactory, array $arguments)
+    {
+        parent::__construct($arguments);
+    }
+
     public function execute()
     {
         $searchPaths = [
