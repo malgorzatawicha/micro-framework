@@ -25,4 +25,15 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['header', 'content'])
             ->getMock();
     }
+    
+    protected function getPDOMock()
+    {
+        return $this->getMockBuilder('\Tests\MockPDO')->getMock();
+    }
+    protected function getConnectionMock()
+    {
+        return $this->getMockBuilder('\MW\Connection')
+            ->setConstructorArgs(['pdo' => $this->getPDOMock()])
+            ->getMock();
+    }
 }

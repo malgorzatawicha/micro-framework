@@ -7,7 +7,7 @@ class SQLBuilderFactoryTest extends BaseTest
 {
     private function buildClass()
     {
-        return new SQLBuilderFactory(new Connection());
+        return new SQLBuilderFactory($this->getConnectionMock());
     }
     public function testClassExists()
     {

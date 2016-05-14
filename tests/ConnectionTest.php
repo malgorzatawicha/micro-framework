@@ -6,7 +6,7 @@ class ConnectionTest extends BaseTest
 {
     public function testClassExists()
     {
-        $class = new Connection();
+        $class = new Connection($this->getPDOMock());
         $this->assertInstanceOf('\MW\Connection', $class);
     }
 }

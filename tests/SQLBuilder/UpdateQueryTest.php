@@ -9,7 +9,7 @@ class UpdateTest extends BaseTest
 {
     private function classBuilder()
     {
-        return new UpdateQuery(new Connection());
+        return new UpdateQuery($this->getConnectionMock());
     }
     
     public function testClassExists()

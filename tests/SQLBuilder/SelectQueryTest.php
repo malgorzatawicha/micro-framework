@@ -9,7 +9,7 @@ class SelectTest extends BaseTest
 {
     private function classBuilder()
     {
-        return new SelectQuery(new Connection());
+        return new SelectQuery($this->getConnectionMock());
     }
     
     public function testClassExists()

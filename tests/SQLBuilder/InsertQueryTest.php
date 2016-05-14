@@ -8,7 +8,7 @@ class InsertTest extends BaseTest
 {
     private function classBuilder()
     {
-        return new InsertQuery(new Connection());
+        return new InsertQuery($this->getConnectionMock());
     }
     
     public function testClassExists()

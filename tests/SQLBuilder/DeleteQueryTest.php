@@ -9,7 +9,7 @@ class DeleteTest extends BaseTest
 {
     private function classBuilder()
     {
-        return new DeleteQuery(new Connection());
+        return new DeleteQuery($this->getConnectionMock());
     }
     
     public function testClassExists()
