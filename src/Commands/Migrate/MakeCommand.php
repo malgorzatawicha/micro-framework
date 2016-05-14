@@ -1,6 +1,7 @@
 <?php namespace MW\Commands\Migrate;
 
 use MW\Commands\Command;
+use MW\SQLBuilderFactory;
 
 class MakeCommand extends Command
 {
@@ -9,6 +10,8 @@ class MakeCommand extends Command
 )';
     public function execute()
     {
-        $this->connection->executeGetLastInsertId($this->sql);
+        $queryBuilder = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM);
+        $queryBuilder->query($this->sql);
+        $queryBuilder->execute();
     }
 }

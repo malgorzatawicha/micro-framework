@@ -1,18 +1,18 @@
 <?php namespace MW\Commands;
 
-use MW\Connection;
+use MW\SQLBuilderFactory;
 
 class CommandDispatcher
 {
     private $arguments;
-    private $connection;
+    private $sqlBuilderFactory;
     private $searchPaths = [
         '\App\Commands',
         '\MW\Commands'
     ];
-    public function __construct(Connection $connection, array $arguments = [])
+    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $arguments = [])
     {
-        $this->connection = $connection;
+        $this->sqlBuilderFactory = $SQLBuilderFactory;
         $this->arguments = $arguments;
     }
 
@@ -46,7 +46,7 @@ class CommandDispatcher
         foreach ($this->searchPaths as $path) {
             $className = $this->buildClassName($path, $commandName);
             if (class_exists($className)) {
-                $command = new $className($this->connection, $this->arguments);
+                $command = new $className($this->sqlBuilderFactory, $this->arguments);
                 if ($command instanceof Command) {
                     return $command->execute();
                 }

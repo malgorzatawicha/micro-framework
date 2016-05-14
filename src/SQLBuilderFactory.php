@@ -15,6 +15,7 @@ class SQLBuilderFactory
     const INSERT = 'InsertQuery';
     const UPDATE = 'UpdateQuery';
     const DELETE = 'DeleteQuery';
+    const CUSTOM = 'CustomQuery';
 
     /**
      * @var Connection

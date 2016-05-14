@@ -72,4 +72,9 @@ abstract class Query
     {
         return $this->connection->fetchAll($this->sql(), $this->parameters());
     }
+    
+    public function execute()
+    {
+        return $this->connection->execute($this->sql(), $this->parameters());
+    }
 }

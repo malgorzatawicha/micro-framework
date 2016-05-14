@@ -8,5 +8,6 @@ $connectionFactory = new \MW\Connection\ConnectionFactory(
     require 'app/config/db.php'
 );
 
-$dispatcher = new \MW\Commands\CommandDispatcher($connectionFactory->getConnection('default'), array_slice($argv, 1));
+$sqlBuilderFactory = new \MW\SQLBuilderFactory($connectionFactory->getConnection('default'));
+$dispatcher = new \MW\Commands\CommandDispatcher($sqlBuilderFactory, array_slice($argv, 1));
 $dispatcher->dispatch();

@@ -1,15 +1,15 @@
 <?php namespace MW\Commands;
 
-use MW\Connection;
+use MW\SQLBuilderFactory;
 
 abstract class Command
 {
     protected $arguments;
-    protected $connection;
+    protected $sqlBuilderFactory;
     
-    public function __construct(Connection $connection, array $arguments = [])
+    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $arguments = [])
     {
-        $this->connection = $connection;
+        $this->sqlBuilderFactory = $SQLBuilderFactory;
         $this->arguments = $arguments;
     }
 
