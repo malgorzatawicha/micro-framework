@@ -1,29 +1,37 @@
 <?php namespace MW\Commands\Migrate;
 
-use MW\Commands\Command;
+use MW\Commands\MigrateCommand;
+use MW\SQLBuilder\Criteria\Equals;
+use MW\SQLBuilder\CustomQuery;
+use MW\SQLBuilder\DeleteQuery;
+use MW\SQLBuilderFactory;
 
-class RollbackCommand extends Command
+class RollbackCommand extends MigrateCommand
 {
-    public function execute()
+    protected function getMigrationsToLoad()
     {
-        $migrationsInDb = $this->getMigrationsInDb();
-        $migrationsToLoad = require __DIR__ . '/../../../app/migrations.php';
-        foreach (array_reverse($migrationsToLoad, true) as $migration => $data) {
-            if (in_array($migration, $migrationsInDb)) {
-                $this->connection->executeGetRowCount($data['down']);
-                $this->connection->executeGetRowCount('DELETE FROM migrations where migration = ?', [$migration]);
-                echo "ROLLBACK: {$data['down']}\n";
-            }
-        }
+        return array_reverse(parent::getMigrationsToLoad(),true);
     }
 
-    private function getMigrationsInDb()
+    protected function canExecuteCommand($migration, $migrationsInDb)
     {
-        $result = [];
-        $migrations = $this->connection->fetchAll("SELECT * FROM migrations");
-        foreach ($migrations as $migration) {
-            $result[] = $migration['migration'];
-        }
-        return $result;
+        return in_array($migration, $migrationsInDb);
+    }
+    
+    protected function executeCommand($data)
+    {
+        /** @var CustomQuery $custom */
+        $custom = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM);
+        $custom->query($data['down']);
+        return $custom->execute();
+    }
+
+    protected function saveMigrationStatus($migration)
+    {
+        /** @var DeleteQuery $delete */
+        $delete = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::DELETE);
+        $delete->table('migrations')
+            ->where(new Equals('migration', $migration))
+            ->execute();
     }
 }

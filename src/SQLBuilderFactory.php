@@ -30,6 +30,11 @@ class SQLBuilderFactory
     {
         $this->connection = $connection;
     }
+    
+    public function connection()
+    {
+        return $this->connection;
+    }
 
     /**
      * @param string $type
