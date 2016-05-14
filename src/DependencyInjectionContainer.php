@@ -31,7 +31,7 @@ class DependencyInjectionContainer
      */
     public function getService($name)
     {
-        if (array_key_exists($name, $this->services))
+        if ($this->hasService($name))
         {
             if ($this->services[$name]['loaded'] === false) {
                 return $this->getNewService($name);
@@ -42,13 +42,16 @@ class DependencyInjectionContainer
         return null;
     }
 
+    public function hasService($name) {
+        return array_key_exists($name, $this->services);   
+    }
     /**
      * @param $name
      * @return null|Object
      */
     public function getNewService($name)
     {
-        if (array_key_exists($name, $this->services))
+        if ($this->hasService($name))
         {
             $this->services[$name]['loaded'] = $this->services[$name]['creationLogic']();
             return $this->services[$name]['loaded'];
