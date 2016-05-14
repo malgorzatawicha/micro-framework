@@ -20,6 +20,9 @@ class CommandDispatcher
     {
         $commandName = array_shift($this->arguments);
 
+        if (empty($commandName)) {
+            return $this->dispatchCommand('help');
+        }
         try {
             return $this->dispatchCommand($commandName);
         } catch (CommandNotFoundException $e) {

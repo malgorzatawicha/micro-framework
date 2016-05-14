@@ -4,10 +4,8 @@ use MW\Commands\Command;
 
 class MakeCommand extends Command
 {
-    private $sql = 'CREATE TABLE migration(  
-  id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  migration VARCHAR(30),
-  PRIMARY KEY (id)
+    private $sql = 'CREATE TABLE migrations(  
+  migration int(11)
 )';
     public function execute()
     {

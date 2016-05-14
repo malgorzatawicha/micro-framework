@@ -40,6 +40,7 @@ class Connection
         if ($stmt->execute($parameters)) {
             return $stmt;
         }
-        throw new ConnectionException($stmt->errorInfo(), $stmt->errorCode());
+
+        throw new ConnectionException($stmt->errorInfo()[2]);
     }
 }
