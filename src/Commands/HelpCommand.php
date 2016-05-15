@@ -86,11 +86,32 @@ class HelpCommand extends Command
         $result = [];
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
-            $filePath    = $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename();
-            $commandName = trim(trim(str_replace('Command.php', '', str_replace($path, '', $filePath)), '.'), DIRECTORY_SEPARATOR);
-            $result[]    = strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $commandName)));
+            $filePath    = $this->getFilename($file);
+            $result[]    = $this->getCommandName($path, $filePath);
         }
         return $result;
+    }
+
+    /**
+     * @param \SplFileInfo $file
+     * @return string
+     */
+    private function getFilename(\SplFileInfo $file)
+    {
+        return $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename();
+    }
+
+    /**
+     * @param string $basePath
+     * @param string $filePath
+     * @return string
+     */
+    private function getCommandName($basePath, $filePath)
+    {
+        $pathWithoutBasePath = str_replace($basePath, '', $filePath);
+        $pathWithoutCommandPart = str_replace('Command.php', '', $pathWithoutBasePath);
+        $pathWithoutUnnecessaryChars = trim(trim($pathWithoutCommandPart, '.'), DIRECTORY_SEPARATOR); 
+        return strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $pathWithoutUnnecessaryChars)));
     }
 
     /**
