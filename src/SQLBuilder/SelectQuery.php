@@ -59,6 +59,16 @@ class SelectQuery extends Query
         return $this;
     }
 
+    public function first()
+    {
+        return $this->connection->fetch($this->sql(), $this->parameters());
+    }
+
+    public function all()
+    {
+        return $this->connection->fetchAll($this->sql(), $this->parameters());
+    }
+    
     /**
      * @param string $select
      * @param string $alias

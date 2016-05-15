@@ -52,6 +52,11 @@ class InsertQuery extends Query
         return $this;
     }
 
+    public function insert()
+    {
+        return $this->connection->insert($this->sql(), $this->parameters());
+    }
+    
     /**
      * @param array $data
      */

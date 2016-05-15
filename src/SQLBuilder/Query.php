@@ -11,7 +11,7 @@ abstract class Query
     /**
      * @var Connection
      */
-    private $connection;
+    protected $connection;
 
     /**
      * @var array
@@ -62,17 +62,7 @@ abstract class Query
     {
         return $this->parameters;
     }
-    
-    public function first()
-    {
-        return $this->connection->fetch($this->sql(), $this->parameters());
-    }
-    
-    public function all()
-    {
-        return $this->connection->fetchAll($this->sql(), $this->parameters());
-    }
-    
+        
     public function execute()
     {
         return $this->connection->execute($this->sql(), $this->parameters());
