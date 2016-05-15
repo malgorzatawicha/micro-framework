@@ -14,46 +14,37 @@ class SQLBuilderFactoryTest extends BaseTest
         $this->assertInstanceOf('\MW\SQLBuilderFactory', $this->buildClass());
     }
 
-    /**
-     * @expectedException \MW\UnrecognizedSqlQueryTypeException
-     */
-    public function testThrowsExceptionIfThereIsWrongSqlQueryType()
-    {
-        $class = $this->buildClass();
-        $class->newSqlBuilderInstance('');
-    }
-    
     public function testBuildingSelectQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\SelectQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::SELECT));
+        $this->assertInstanceOf('\MW\SQLBuilder\SelectQuery', $class->getSelectQuery());
     }
 
 
     public function testBuildingInsertQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\InsertQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::INSERT));
+        $this->assertInstanceOf('\MW\SQLBuilder\InsertQuery', $class->getInsertQuery());
     }
 
 
     public function testBuildingUpdateQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\UpdateQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::UPDATE));
+        $this->assertInstanceOf('\MW\SQLBuilder\UpdateQuery', $class->getUpdateQuery());
     }
 
 
     public function testBuildingDeleteQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\DeleteQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::DELETE));
+        $this->assertInstanceOf('\MW\SQLBuilder\DeleteQuery', $class->getDeleteQuery());
     }
 
     public function testBuildingCustomQuery()
     {
         $class = $this->buildClass();
-        $this->assertInstanceOf('\MW\SQLBuilder\CustomQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM));
+        $this->assertInstanceOf('\MW\SQLBuilder\CustomQuery', $class->getCustomQuery());
     }
 
     public function testGettingConnection()

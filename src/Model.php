@@ -53,16 +53,7 @@ abstract class Model
      */
     public function get()
     {
-        return $this->doGet($this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::SELECT));
-    }
-
-    /**
-     * @param SelectQuery $selectQuery
-     * @return array|null
-     */
-    private function doGet(SelectQuery $selectQuery)
-    {
-        return $selectQuery->table($this->tableName)->all();
+        return $this->sqlBuilderFactory->getSelectQuery()->table($this->tableName)->all();
     }
     
     /**
@@ -72,19 +63,7 @@ abstract class Model
      */
     public function insert(array $data)
     {
-        return $this->doInsert(
-            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::INSERT),
-            $data);
-    }
-
-    /**
-     * @param InsertQuery $insertQuery
-     * @param array $data
-     * @return string
-     */
-    private function doInsert(InsertQuery $insertQuery, array $data)
-    {
-        return $insertQuery->table($this->tableName)->data($data)->insert();
+        return $this->sqlBuilderFactory->getInsertQuery()->table($this->tableName)->data($data)->insert();
     }
     
     /**
@@ -94,19 +73,7 @@ abstract class Model
      */
     public function delete(array $data)
     {
-        return $this->doDelete(
-            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::DELETE),
-            $data);
-    }
-
-    /**
-     * @param DeleteQuery $deleteQuery
-     * @param array $data
-     * @return int
-     */
-    private function doDelete(DeleteQuery $deleteQuery, array $data)
-    {
-        $deleteQuery->table($this->tableName);
+        $deleteQuery = $this->sqlBuilderFactory->getDeleteQuery()->table($this->tableName);
         foreach ($data as $key => $value) {
             $deleteQuery->where(new Equals($key, $value));
         }
@@ -130,21 +97,6 @@ abstract class Model
      */
     public function executeCustomQuery($query, $parameters = null)
     {
-        return $this->doExecuteCustomQuery(
-            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM),
-            $query, 
-            $parameters
-        );
-    }
-
-    /**
-     * @param CustomQuery $customQuery
-     * @param string $sql
-     * @param array|null $parameters
-     * @return int
-     */
-    private function doExecuteCustomQuery(CustomQuery $customQuery, $sql, $parameters = null)
-    {
-        return $customQuery->query($sql, $parameters)->execute();
+        return $this->sqlBuilderFactory->getCustomQuery()->query($query, $parameters)->execute();
     }
 }

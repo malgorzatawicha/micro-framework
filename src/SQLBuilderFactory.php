@@ -51,11 +51,47 @@ class SQLBuilderFactory
     }
 
     /**
+     * @return InsertQuery
+     * @throws UnrecognizedSqlQueryTypeException
+     */
+    public function getInsertQuery()
+    {
+        return $this->newSqlBuilderInstance(self::INSERT);
+    }
+
+    /**
+     * @return DeleteQuery
+     * @throws UnrecognizedSqlQueryTypeException
+     */
+    public function getDeleteQuery()
+    {
+        return $this->newSqlBuilderInstance(self::DELETE);
+    }
+
+    /**
+     * @return UpdateQuery
+     * @throws UnrecognizedSqlQueryTypeException
+     */
+    public function getUpdateQuery()
+    {
+        return $this->newSqlBuilderInstance(self::UPDATE);
+    }
+
+    /**
+     * @return CustomQuery
+     * @throws UnrecognizedSqlQueryTypeException
+     */
+    public function getCustomQuery()
+    {
+        return $this->newSqlBuilderInstance(self::CUSTOM);
+    }
+    
+    /**
      * @param string $type
      * @return SelectQuery|InsertQuery|UpdateQuery|DeleteQuery|CustomQuery
      * @throws UnrecognizedSqlQueryTypeException
      */
-    public function newSqlBuilderInstance($type)
+    private function newSqlBuilderInstance($type)
     {
         $className = '\MW\SQLBuilder\\' . $type ;
         if (class_exists($className)) {

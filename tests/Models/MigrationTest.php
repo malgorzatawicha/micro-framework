@@ -30,7 +30,7 @@ class MigrationTest extends BaseTest
         $sqlBuilder = $this->getSelectQueryMock('migrations');
         $sqlBuilder->expects($this->once())->method('all')->willReturn([['migration' => '1']]);
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
-        $sqlBuilderFactory->expects($this->once())->method('newSqlBuilderInstance')->with(SQLBuilderFactory::SELECT)
+        $sqlBuilderFactory->expects($this->once())->method('getSelectQuery')
             ->will($this->returnValue($sqlBuilder));
 
         $model = new Migration($sqlBuilderFactory);
@@ -42,7 +42,7 @@ class MigrationTest extends BaseTest
     {
         $sqlBuilder = $this->getInsertQueryMock('migrations', ['migration' => '1'], '1');
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
-        $sqlBuilderFactory->expects($this->once())->method('newSqlBuilderInstance')->with(SQLBuilderFactory::INSERT)
+        $sqlBuilderFactory->expects($this->once())->method('getInsertQuery')
             ->will($this->returnValue($sqlBuilder));
 
         $model = new Migration($sqlBuilderFactory);
@@ -54,7 +54,7 @@ class MigrationTest extends BaseTest
     {
         $sqlBuilder = $this->getDeleteQueryMock('migrations', ['migration' => '1'], 1);
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
-        $sqlBuilderFactory->expects($this->once())->method('newSqlBuilderInstance')->with(SQLBuilderFactory::DELETE)
+        $sqlBuilderFactory->expects($this->once())->method('getDeleteQuery')
             ->will($this->returnValue($sqlBuilder));
 
         $model = new Migration($sqlBuilderFactory);
@@ -67,7 +67,7 @@ class MigrationTest extends BaseTest
         $sqlBuilder = $this->getCustomQueryMock('dummy', true);
 
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
-        $sqlBuilderFactory->expects($this->once())->method('newSqlBuilderInstance')->with(SQLBuilderFactory::CUSTOM)
+        $sqlBuilderFactory->expects($this->once())->method('getCustomQuery')
             ->will($this->returnValue($sqlBuilder));
 
         $model = new Migration($sqlBuilderFactory);
