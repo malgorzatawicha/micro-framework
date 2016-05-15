@@ -1,10 +1,6 @@
 <?php namespace MW\Commands;
 
 use MW\Models\Migration;
-use MW\SQLBuilder\CustomQuery;
-use MW\SQLBuilder\InsertQuery;
-use MW\SQLBuilder\SelectQuery;
-use MW\SQLBuilderFactory;
 
 class MigrateCommand extends Command
 {
