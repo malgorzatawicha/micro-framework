@@ -1,10 +1,6 @@
 <?php namespace MW;
 
 use MW\SQLBuilder\Criteria\Equals;
-use MW\SQLBuilder\CustomQuery;
-use MW\SQLBuilder\DeleteQuery;
-use MW\SQLBuilder\InsertQuery;
-use MW\SQLBuilder\SelectQuery;
 
 /**
  * Class Model
