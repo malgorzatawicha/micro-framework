@@ -25,18 +25,18 @@ class CommandDispatcher
 
     /**
      * CommandDispatcher constructor.
-     * @param DependencyInjectionContainer $dependencyInjectionContainer
+     * @param DependencyInjectionContainer $container
      * @param array $commands
      * @param array $arguments
      */
     public function __construct(
-        DependencyInjectionContainer $dependencyInjectionContainer, 
+        DependencyInjectionContainer $container,
         array $commands,
         array $arguments = [])
     {
-        $this->dependencyInjectionContainer = $dependencyInjectionContainer;
-        $this->commands = $commands;
-        $this->arguments = $arguments;
+        $this->dependencyInjectionContainer = $container;
+        $this->commands                     = $commands;
+        $this->arguments                    = $arguments;
     }
 
     /**
