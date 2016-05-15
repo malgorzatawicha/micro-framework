@@ -2,6 +2,7 @@
 
 use MW\SQLBuilder\Criteria\Equals;
 use MW\SQLBuilder\CustomQuery;
+use MW\SQLBuilder\DeleteQuery;
 use MW\SQLBuilder\InsertQuery;
 use MW\SQLBuilder\SelectQuery;
 
@@ -42,11 +43,20 @@ abstract class Model
      */
     public function find($id)
     {
-        /** @var SelectQuery $query */
-        $query = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::SELECT)
-            ->table($this->tableName)
-            ->where(new SQLBuilder\Criteria\Equals($this->primaryKey, $id));
-        return $query->first();
+        return $this->doFind(
+            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::SELECT),
+            $id);
+    }
+
+    /**
+     * @param SelectQuery $selectQuery
+     * @param int $id
+     * @return array|null
+     */
+    private function doFind(SelectQuery $selectQuery, $id)
+    {
+        return $selectQuery->table($this->tableName)
+            ->where(new Equals($this->primaryKey, $id))->first();
     }
 
     /**
@@ -55,12 +65,18 @@ abstract class Model
      */
     public function get()
     {
-        /** @var SelectQuery $query */
-        $query = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::SELECT)
-            ->table($this->tableName);
-        return $query->all();
+        return $this->doGet($this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::SELECT));
     }
 
+    /**
+     * @param SelectQuery $selectQuery
+     * @return array|null
+     */
+    private function doGet(SelectQuery $selectQuery)
+    {
+        return $selectQuery->table($this->tableName)->all();
+    }
+    
     /**
      * @param array $data
      * @return string
@@ -68,13 +84,21 @@ abstract class Model
      */
     public function insert(array $data)
     {
-        /** @var InsertQuery $query */
-        $query = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::INSERT)
-            ->table($this->tableName)
-            ->data($data);
-        return $query->insert();
+        return $this->doInsert(
+            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::INSERT),
+            $data);
     }
 
+    /**
+     * @param InsertQuery $insertQuery
+     * @param array $data
+     * @return string
+     */
+    private function doInsert(InsertQuery $insertQuery, array $data)
+    {
+        return $insertQuery->table($this->tableName)->data($data)->insert();
+    }
+    
     /**
      * @param array $data
      * @return int
@@ -82,14 +106,25 @@ abstract class Model
      */
     public function delete(array $data)
     {
-        $query = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::DELETE)
-            ->table($this->tableName);
-        foreach ($data as $key => $value) {
-            $query->where(new Equals($key, $value));
-        }
-        return $query->execute();
+        return $this->doDelete(
+            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::DELETE),
+            $data);
     }
 
+    /**
+     * @param DeleteQuery $deleteQuery
+     * @param array $data
+     * @return int
+     */
+    private function doDelete(DeleteQuery $deleteQuery, array $data)
+    {
+        $deleteQuery->table($this->tableName);
+        foreach ($data as $key => $value) {
+            $deleteQuery->where(new Equals($key, $value));
+        }
+        return $deleteQuery->execute();
+    }
+    
     /**
      * @param callable $callable
      * @throws \Exception
@@ -101,15 +136,27 @@ abstract class Model
 
     /**
      * @param string $query
+     * @param array|null $parameters
      * @return int
      * @throws UnrecognizedSqlQueryTypeException
      */
-    public function executeCustomQuery($query)
+    public function executeCustomQuery($query, $parameters = null)
     {
-        /** @var CustomQuery $query */
-        $sqlQueryBuilder = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM);
-        
-        return $sqlQueryBuilder->query($query)->execute();
+        return $this->doExecuteCustomQuery(
+            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM),
+            $query, 
+            $parameters
+        );
+    }
 
+    /**
+     * @param CustomQuery $customQuery
+     * @param string $sql
+     * @param array|null $parameters
+     * @return int
+     */
+    private function doExecuteCustomQuery(CustomQuery $customQuery, $sql, $parameters = null)
+    {
+        return $customQuery->query($sql, $parameters)->execute();
     }
 }

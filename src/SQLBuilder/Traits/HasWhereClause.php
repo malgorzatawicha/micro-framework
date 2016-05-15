@@ -20,7 +20,7 @@ trait HasWhereClause
 
     /**
      * @param array $clause
-     * @return string
+     * @return string|array<string|array>
      */
     protected function whereClause(array $clause)
     {

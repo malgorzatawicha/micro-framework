@@ -110,7 +110,7 @@ class InsertQuery extends Query
 
     /**
      * @param array $clause
-     * @return array
+     * @return array<string|array>
      */
     protected function valuesClause(array $clause)
     {
