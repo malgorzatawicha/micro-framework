@@ -17,7 +17,7 @@ class MigrationTest extends BaseTest
         $sqlBuilder = $this->getSelectQueryMock('migrations', ['migration' => 1]);
         $sqlBuilder->expects($this->once())->method('first')->willReturn(['migration' => '1']);
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
-        $sqlBuilderFactory->expects($this->once())->method('newSqlBuilderInstance')->with(SQLBuilderFactory::SELECT)
+        $sqlBuilderFactory->expects($this->once())->method('getSelectQuery')
             ->will($this->returnValue($sqlBuilder));
         
         $model = new Migration($sqlBuilderFactory);

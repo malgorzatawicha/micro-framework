@@ -39,7 +39,6 @@ class MigrateCommand extends Command
 
         foreach ($this->migrations as $migration => $data) {
             if ($this->canExecuteCommand($migration, $migrationsInDb)) {
-                $self = $this;
                 $this->migrationModel->transaction(function() use($data, $migration) {
                     $this->executeCommand($data);
                     $this->saveMigrationStatus($migration);
