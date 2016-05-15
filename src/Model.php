@@ -5,7 +5,7 @@ use MW\SQLBuilder\CustomQuery;
 use MW\SQLBuilder\InsertQuery;
 use MW\SQLBuilder\SelectQuery;
 
-class Model
+abstract class Model
 {
     protected $sqlBuilderFactory;
 

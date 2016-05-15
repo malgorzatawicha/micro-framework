@@ -1,6 +1,8 @@
 <?php namespace Tests;
 
 
+use MW\SQLBuilder\Criteria\Equals;
+
 abstract class BaseTest extends \PHPUnit_Framework_TestCase
 {
     protected function getRequestValueMock()
@@ -68,8 +70,48 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs(['connection' => $this->getConnectionMock()])
             ->getMock();
         
-        $mock->expects($this->once())->method('query')->with($query)->willReturn(null);
+        $mock->expects($this->once())->method('query')->with($query)->will($this->returnValue($mock));
         $mock->expects($this->once())->method('execute')->willReturn($result);
+        return $mock;
+    }
+    protected function getSelectQueryMock($table, $criteria = [])
+    {
+        $mock = $this->getMockBuilder('\MW\SQLBuilder\SelectQuery')
+            ->setConstructorArgs(['connection' => $this->getConnectionMock()])
+            ->getMock();
+
+        $mock->expects($this->once())->method('table')->with($table)->will($this->returnValue($mock));
+        foreach ($criteria as $key => $value) {
+            $mock->expects($this->once())->method('where')->with(new Equals($key, $value))->will($this->returnValue($mock));
+        }
+        return $mock;
+    }
+
+    protected function getDeleteQueryMock($table, $criteria = [], $return = 0)
+    {
+        $mock = $this->getMockBuilder('\MW\SQLBuilder\DeleteQuery')
+            ->setConstructorArgs(['connection' => $this->getConnectionMock()])
+            ->getMock();
+
+        $mock->expects($this->once())->method('table')->with($table)->will($this->returnValue($mock));
+        foreach ($criteria as $key => $value) {
+            $mock->expects($this->once())->method('where')->with(new Equals($key, $value))->will($this->returnValue($mock));
+        }
+        
+        $mock->expects($this->once())->method('execute')->willReturn($return);
+        return $mock;
+    }
+    
+    protected function getInsertQueryMock($table, $data, $return)
+    {
+        $mock = $this->getMockBuilder('\MW\SQLBuilder\InsertQuery')
+            ->setConstructorArgs(['connection' => $this->getConnectionMock()])
+            ->getMock();
+
+        $mock->expects($this->once())->method('table')->with($table)->will($this->returnValue($mock));
+        $mock->expects($this->once())->method('data')->with($data)->will($this->returnValue($mock));
+
+        $mock->expects($this->once())->method('insert')->willReturn($return);
         return $mock;
     }
     
