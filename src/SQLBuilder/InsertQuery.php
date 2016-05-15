@@ -81,9 +81,9 @@ class InsertQuery extends Query
      */
     protected function dataClause() 
     {
-        $columnsClause = $this->columnsClause();
-        $valuesClause = $this->valuesClause();
-        $valuesSql = array_shift($valuesClause);
+        $columnsClause    = $this->columnsClause();
+        $valuesClause     = $this->valuesClause();
+        $valuesSql        = array_shift($valuesClause);
         $valuesParameters = array_shift($valuesClause);
         return [$columnsClause . $valuesSql, $valuesParameters];
     }
@@ -110,10 +110,10 @@ class InsertQuery extends Query
      */
     protected function valuesClause()
     {
-        $result = [];
+        $result     = [];
         $parameters = [];
         foreach ($this->clauses['data'] as $row) {
-            $result[] = $this->addRowSqlClause($row);
+            $result[]   = $this->addRowSqlClause($row);
             $parameters = array_merge($parameters, array_values($row));
         }
         return ['VALUES ' . implode(', ', $result) . ' ', $parameters];
