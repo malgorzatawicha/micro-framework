@@ -64,15 +64,34 @@ class UpdateQuery extends Query
      */
     protected function setClause(array $clause)
     {
-        $strings    = [];
-        $parameters = [];
-        foreach ($clause as $key => $value) {
-            $strings[]    = $this->addSetSql($key);
-            $parameters[] = $value;
-        }
-        return ['SET ' . implode(', ', $strings) . ' ', $parameters];
+        return [
+            'SET ' . $this->collectSetSqls($clause) . ' ',
+            $this->collectSetParameters($clause)
+        ];
     }
 
+    /**
+     * @param array $clause
+     * @return string
+     */
+    private function collectSetSqls(array $clause) 
+    {
+        $result = [];
+        foreach (array_keys($clause) as $columnName) {
+            $result[] = $this->addSetSql($columnName);
+        }
+        return implode(', ', $result);
+    }
+
+    /**
+     * @param array $clause
+     * @return array
+     */
+    private function collectSetParameters(array $clause)
+    {
+        return array_values($clause);
+    }
+    
     /**
      * @param $key
      * @return string

@@ -113,20 +113,43 @@ class InsertQuery extends Query
      */
     protected function valuesClause(array $clause)
     {
-        $result     = [];
-        $parameters = [];
-        foreach ($clause as $row) {
-            $result[]   = $this->addRowSqlClause($row);
-            $parameters = array_merge($parameters, array_values($row));
-        }
-        return ['VALUES ' . implode(', ', $result) . ' ', $parameters];
+        return [
+            'VALUES ' . $this->collectValueSqls($clause),
+            $this->collectValueParameters($clause)
+        ];
     }
 
+    /**
+     * @param array $clause
+     * @return string
+     */
+    private function collectValueSqls(array $clause)
+    {
+        $result = [];
+        foreach ($clause as $row) {
+            $result[] = $this->addValueSql($row);
+        }
+        return implode(', ', $result);
+    }
+
+    /**
+     * @param array $clause
+     * @return array
+     */
+    private function collectValueParameters(array $clause)
+    {
+        $result = [];
+        foreach ($clause as $row) {
+            $result = array_merge($result, array_values($row));
+        }
+        return $result;
+    }
+    
     /**
      * @param array $row
      * @return string
      */
-    private function addRowSqlClause($row)
+    private function addValueSql($row)
     {
         $count = count(array_values($row));
         return '(' . implode(', ', array_fill(0, $count, '?')) . ')';
