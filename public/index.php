@@ -16,4 +16,11 @@ if (empty($controller)) {
 }
 /** @var \MW\Response $response */
 $response = $controller->$action();
-$response->send();
+
+if (is_string($response)) {
+    $di->getService('output')->content($response);
+} else if ($response instanceof \MW\View) {
+    $di->getService('response')->setContent((string)$response)->send();
+} else if ($response instanceof \MW\Response) {
+    $response->send();
+}
