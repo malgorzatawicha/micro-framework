@@ -82,12 +82,12 @@ abstract class Model
     }
 
     /**
-     * @param string $query
+     * @param string $sql
      * @param array|null $parameters
      * @return int
      */
-    public function executeCustomQuery($query, $parameters = null)
+    public function executeCustomQuery($sql, $parameters = null)
     {
-        return $this->sqlBuilderFactory->getCustomQuery()->query($query, $parameters)->execute();
+        return $this->sqlBuilderFactory->getCustomQuery()->query($sql, $parameters)->execute();
     }
 }
