@@ -35,7 +35,7 @@ class HelpCommandTest extends BaseTest
         $mock = $this->getDirectoryIteratorFactoryMock();
         $mock->expects($this->once())->method('getPhpDirectoryIterator')->with('dummy')->willReturn([new \SplFileInfo('TestCommand.php')]);
         $outputMock = $this->getOutputMock();
-        $outputMock->expects($this->once())->method('content')->with("test\n");
+        $outputMock->expects($this->once())->method('content')->with('test' . "\n");
         
         $class = new HelpCommand($mock, $outputMock, ['dummy']);
         $class->execute([]);
