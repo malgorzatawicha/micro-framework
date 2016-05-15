@@ -8,5 +8,13 @@ use MW\Connection;
  */
 class MysqlConnection extends Connection
 {
-    
+    /**
+     * @param string $name
+     * @return string
+     */
+    public function escapeName($name)
+    {
+        return '`' . $name . '`';
+    }
+
 }

@@ -50,11 +50,12 @@ class UpdateQuery extends Query
     }
 
     /**
+     * @param string $clause
      * @return string
      */
-    protected function tableClause()
+    protected function tableClause($clause)
     {
-        return 'UPDATE ' . $this->clauses['table']. ' ';
+        return 'UPDATE ' . $this->connection->escapeName($clause). ' ';
     }
 
     /**
@@ -78,6 +79,6 @@ class UpdateQuery extends Query
      */
     private function addSetSql($key)
     {
-        return $key . '=?';
+        return $this->connection->escapeName($key) . '=?';
     }
 }

@@ -14,12 +14,14 @@ class MigrationTest extends BaseTest
 
     public function testFind()
     {
-        $sqlBuilder = $this->getSelectQueryMock('migrations', ['migration' => 1]);
+        $connectionMock = $this->getConnectionMock();
+        $sqlBuilder = $this->getSelectQueryMock($connectionMock, 'migrations', ['migration' => 1]);
         $sqlBuilder->expects($this->once())->method('first')->willReturn(['migration' => '1']);
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
         $sqlBuilderFactory->expects($this->once())->method('getSelectQuery')
             ->will($this->returnValue($sqlBuilder));
-        
+        $sqlBuilderFactory->expects($this->once())->method('connection')->will($this->returnValue($connectionMock));
+
         $model = new Migration($sqlBuilderFactory);
         $result = $model->find(1);
         $this->assertEquals(['migration' => 1], $result);
@@ -27,7 +29,8 @@ class MigrationTest extends BaseTest
 
     public function testGet()
     {
-        $sqlBuilder = $this->getSelectQueryMock('migrations');
+        $connectionMock = $this->getConnectionMock();
+        $sqlBuilder = $this->getSelectQueryMock($connectionMock, 'migrations');
         $sqlBuilder->expects($this->once())->method('all')->willReturn([['migration' => '1']]);
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
         $sqlBuilderFactory->expects($this->once())->method('getSelectQuery')
@@ -52,11 +55,12 @@ class MigrationTest extends BaseTest
 
     public function testDelete()
     {
-        $sqlBuilder = $this->getDeleteQueryMock('migrations', ['migration' => '1'], 1);
+        $connectionMock = $this->getConnectionMock();
+        $sqlBuilder = $this->getDeleteQueryMock($connectionMock, 'migrations', ['migration' => '1'], 1);
         $sqlBuilderFactory = $this->getSqlBuilderFactoryMock();
         $sqlBuilderFactory->expects($this->once())->method('getDeleteQuery')
             ->will($this->returnValue($sqlBuilder));
-
+        $sqlBuilderFactory->expects($this->once())->method('connection')->will($this->returnValue($connectionMock));
         $model = new Migration($sqlBuilderFactory);
         $result = $model->delete(['migration' => 1]);
         $this->assertEquals(1, $result);

@@ -42,6 +42,6 @@ class DeleteQuery extends Query
      */
     protected function tableClause($clause)
     {
-        return 'DELETE FROM ' . $clause . ' ';
+        return 'DELETE FROM ' . $this->connection->escapeName($clause) . ' ';
     }
 }

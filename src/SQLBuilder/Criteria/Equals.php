@@ -14,7 +14,7 @@ class Equals extends Criteria
         if (empty($this->column) || empty($this->value)) {
             return '';
         }
-        return $this->column . '=?';
+        return $this->connection->escapeName($this->column) . '=?';
     }
 
     /**

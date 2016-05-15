@@ -39,7 +39,7 @@ abstract class Model
     public function find($id)
     {
         return $this->sqlBuilderFactory->getSelectQuery()->table($this->tableName)
-            ->where(new Equals($this->primaryKey, $id))->first();
+            ->where(new Equals($this->sqlBuilderFactory->connection(), $this->primaryKey, $id))->first();
     }
 
     /**
@@ -67,7 +67,7 @@ abstract class Model
     {
         $deleteQuery = $this->sqlBuilderFactory->getDeleteQuery()->table($this->tableName);
         foreach ($data as $key => $value) {
-            $deleteQuery->where(new Equals($key, $value));
+            $deleteQuery->where(new Equals($this->sqlBuilderFactory->connection(), $key, $value));
         }
         return $deleteQuery->execute();
     }

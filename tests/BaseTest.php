@@ -74,28 +74,28 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->once())->method('execute')->willReturn($result);
         return $mock;
     }
-    protected function getSelectQueryMock($table, $criteria = [])
+    protected function getSelectQueryMock($connectionMock, $table, $criteria = [])
     {
         $mock = $this->getMockBuilder('\MW\SQLBuilder\SelectQuery')
-            ->setConstructorArgs(['connection' => $this->getConnectionMock()])
+            ->setConstructorArgs(['connection' => $connectionMock])
             ->getMock();
 
         $mock->expects($this->once())->method('table')->with($table)->will($this->returnValue($mock));
         foreach ($criteria as $key => $value) {
-            $mock->expects($this->once())->method('where')->with(new Equals($key, $value))->will($this->returnValue($mock));
+            $mock->expects($this->once())->method('where')->with(new Equals($connectionMock, $key, $value))->will($this->returnValue($mock));
         }
         return $mock;
     }
 
-    protected function getDeleteQueryMock($table, $criteria = [], $return = 0)
+    protected function getDeleteQueryMock($connectionMock, $table, $criteria = [], $return = 0)
     {
         $mock = $this->getMockBuilder('\MW\SQLBuilder\DeleteQuery')
-            ->setConstructorArgs(['connection' => $this->getConnectionMock()])
+            ->setConstructorArgs(['connection' => $connectionMock])
             ->getMock();
 
         $mock->expects($this->once())->method('table')->with($table)->will($this->returnValue($mock));
         foreach ($criteria as $key => $value) {
-            $mock->expects($this->once())->method('where')->with(new Equals($key, $value))->will($this->returnValue($mock));
+            $mock->expects($this->once())->method('where')->with(new Equals($connectionMock, $key, $value))->will($this->returnValue($mock));
         }
         
         $mock->expects($this->once())->method('execute')->willReturn($return);

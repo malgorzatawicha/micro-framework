@@ -1,4 +1,5 @@
 <?php namespace MW\SQLBuilder\Criteria;
+use MW\Connection;
 
 /**
  * Class Criteria
@@ -17,14 +18,20 @@ abstract class Criteria
     protected $value;
 
     /**
+     * @var Connection
+     */
+    protected $connection;
+    /**
      * Criteria constructor.
+     * @param Connection $connection
      * @param string|null $column
      * @param mixed|null $value
      */
-    public function __construct($column = null, $value = null)
+    public function __construct(Connection $connection, $column = null, $value = null)
     {
-        $this->column = $column;
-        $this->value  = $value;
+        $this->connection = $connection;
+        $this->column     = $column;
+        $this->value      = $value;
     }
 
     /**

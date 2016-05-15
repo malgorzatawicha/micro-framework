@@ -94,7 +94,14 @@ class SelectQuery extends Query
         }
         $strings = [];
         foreach ($clause as $key => $value) {
-            $strings[] = $key . (!empty($value)?' AS ' . $value:'');
+            $columnNameParts = explode('.', $key);
+            $columnName      = [];
+            foreach ($columnNameParts as $columnNamePart) {
+                $columnName[] = $this->connection->escapeName($columnNamePart);
+            }
+            
+            $strings[] = implode('.', $columnName) 
+                . (!empty($value)?' AS ' . $this->connection->escapeName($value):'');
         }
         return 'SELECT ' . implode(', ', $strings) . ' ';
     }
@@ -105,8 +112,8 @@ class SelectQuery extends Query
      */
     protected function tableClause(array $clause)
     {
-        return 'FROM ' . $clause['name'] . 
-        (!empty($clause['alias'])?' AS ' . $clause['alias']: '') . ' ';
+        return 'FROM ' . $this->connection->escapeName($clause['name']) . 
+        (!empty($clause['alias'])?' AS ' . $this->connection->escapeName($clause['alias']): '') . ' ';
     }
     
 }

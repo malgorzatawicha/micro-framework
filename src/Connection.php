@@ -80,6 +80,15 @@ class Connection
     }
 
     /**
+     * @param string $name
+     * @return string
+     */
+    public function escapeName($name)
+    {
+        return '"' . $name . '"';
+    }
+    
+    /**
      * @param string $sql
      * @param array|null $parameters
      * @return \PDOStatement

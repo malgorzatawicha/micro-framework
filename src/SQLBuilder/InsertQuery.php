@@ -95,7 +95,7 @@ class InsertQuery extends Query
      */
     protected function tableClause($clause)
     {
-        return 'INSERT INTO ' . $clause . ' ';
+        return 'INSERT INTO ' . $this->connection->escapeName($clause) . ' ';
     }
 
     /**
@@ -104,8 +104,12 @@ class InsertQuery extends Query
      */
     protected function columnsClause(array $clause)
     {
-        $firstRow = reset($clause);
-        return '(' . implode(', ', array_keys($firstRow)) . ') ';
+        $result = [];
+        $columnNames = array_keys(reset($clause));
+        foreach ($columnNames as $name) {
+            $result[] = $this->connection->escapeName($name);
+        }
+        return '(' . implode(', ', $result) . ') ';
     }
 
     /**
