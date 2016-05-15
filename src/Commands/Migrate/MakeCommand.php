@@ -2,8 +2,6 @@
 
 use MW\Commands\Command;
 use MW\Models\Migration;
-use MW\SQLBuilder\CustomQuery;
-use MW\SQLBuilderFactory;
 
 /**
  * Class MakeCommand
