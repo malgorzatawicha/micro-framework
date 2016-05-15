@@ -25,7 +25,7 @@ class ConnectionFactory
     public function __construct(PDOFactory $pdoFactory, array $configs = [])
     {
         $this->pdoFactory = $pdoFactory;
-        $this->configs = $configs;
+        $this->configs    = $configs;
     }
 
     /**
