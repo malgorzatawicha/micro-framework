@@ -15,7 +15,7 @@ $di->addService('MW\Models\Migration', function() use($di) {
 });
 
 
-$di->addService('MW\Commands\HelpCommand', function() use($di) {
+$di->addService('MW\Commands\HelpCommand', function() {
     $paths = [
         realpath(__DIR__ . '/../src/Commands'),
         realpath(__DIR__ . '/Commands/'),  
