@@ -39,7 +39,9 @@ class PDOFactory
     {
         $config = array_merge($this->defaultConfig, $config);
         return new $this->pdoClassName(
-            "{$config['driver']}:host=".$config['host'].";dbname=".$config['name'],
-            $config['user'], $config['password']);
+            sprintf('%s:host=%s;dbname=%', $config['driver'], $config['host'], $config['name']),
+            $config['user'],
+            $config['password']
+        );
     }
 }
