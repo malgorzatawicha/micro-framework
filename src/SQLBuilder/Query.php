@@ -49,12 +49,12 @@ abstract class Query
         
         $result = '';
         foreach (array_keys($this->clauses) as $name) {
-            $methodName = $name . 'Clause';
+            $methodName   = $name . 'Clause';
             $clauseResult = $this->$methodName();
             if (!is_array($clauseResult)) {
                 $result .= $clauseResult;
             } else {
-                $result .= array_shift($clauseResult);
+                $result          .= array_shift($clauseResult);
                 $this->parameters = array_merge($this->parameters, array_shift($clauseResult));
             }
         }
