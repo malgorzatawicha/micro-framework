@@ -5,7 +5,7 @@ use MW\SQLBuilder\Criteria\Equals;
 use MW\SQLBuilder\DeleteQuery;
 use Tests\BaseTest;
 
-class DeleteTest extends BaseTest
+class DeleteQueryTest extends BaseTest
 {
     private function classBuilder()
     {

@@ -5,7 +5,7 @@ use MW\SQLBuilder\Criteria\Equals;
 use MW\SQLBuilder\SelectQuery;
 use Tests\BaseTest;
 
-class SelectTest extends BaseTest
+class SelectQueryTest extends BaseTest
 {
     private function classBuilder()
     {
@@ -90,5 +90,33 @@ class SelectTest extends BaseTest
 
         $this->assertEquals('SELECT * FROM products WHERE name=?', $select->sql());
         $this->assertEquals(['prod1'], $select->parameters());
+    }
+    
+    public function testFirst()
+    {
+        $connectionMock = $this->getConnectionMock();
+        $connectionMock->expects($this->once())
+            ->method('fetch')->with('SELECT * FROM products WHERE name=?', ['prod1'])
+            ->willReturn(['name' => 'prod1']);
+        
+        $select = new SelectQuery($connectionMock);
+        $select->table('products')
+            ->where(new Equals('name', 'prod1'));
+
+        $this->assertEquals(['name' => 'prod1'], $select->first());
+    }
+
+    public function testAll()
+    {
+        $connectionMock = $this->getConnectionMock();
+        $connectionMock->expects($this->once())
+            ->method('fetchAll')->with('SELECT * FROM products WHERE name=?', ['prod1'])
+            ->willReturn([['name' => 'prod1']]);
+
+        $select = new SelectQuery($connectionMock);
+        $select->table('products')
+            ->where(new Equals('name', 'prod1'));
+
+        $this->assertEquals([['name' => 'prod1']], $select->all());
     }
 }

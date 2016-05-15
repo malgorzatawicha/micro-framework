@@ -5,7 +5,7 @@ use MW\SQLBuilder\Criteria\Equals;
 use MW\SQLBuilder\UpdateQuery;
 use Tests\BaseTest;
 
-class UpdateTest extends BaseTest
+class UpdateQueryTest extends BaseTest
 {
     private function classBuilder()
     {
@@ -53,5 +53,21 @@ class UpdateTest extends BaseTest
 
         $this->assertEquals('UPDATE products SET model=? WHERE name=?', $query->sql());
         $this->assertEquals(['m1', 'prod1'], $query->parameters());
+    }
+
+    public function testUpdate()
+    {
+        $connectionMock = $this->getConnectionMock();
+        $connectionMock->expects($this->once())
+            ->method('execute')->with('UPDATE products SET model=? WHERE name=?', ['m1', 'prod1'])
+            ->willReturn(true);
+
+        $query = new UpdateQuery($connectionMock);
+
+        $query->table('products')
+            ->set(['model' => 'm1'])
+            ->where(new Equals('name', 'prod1'));
+
+        $this->assertTrue($query->execute());
     }
 }
