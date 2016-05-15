@@ -68,17 +68,7 @@ class CommandDispatcher
             if (!$this->classNameMatchesCommand($className, $commandName)) {
                 continue;
             }
-            $command = null;
-            if ($this->dependencyInjectionContainer->hasService($className)) {
-                $command = $this->dependencyInjectionContainer->getNewService($className);
-            } else if (class_exists($className)){
-                $reflectionMethod = new \ReflectionMethod($className, '__construct');
-                if (empty($reflectionMethod->getParameters())) {
-                    $command = new $className();    
-                } else {
-                    throw new CommandNotFoundException();
-                }
-            }
+            $command = $this->findCommand($className);
             
             if ($command instanceof Command) {
                 return $command->execute($this->arguments);
@@ -86,6 +76,27 @@ class CommandDispatcher
         }
         
         throw new CommandNotFoundException();
+    }
+
+    /**
+     * @param string $className
+     * @return null|Object
+     * @throws CommandNotFoundException
+     */
+    private function findCommand($className)
+    {
+        $command = null;
+        if ($this->dependencyInjectionContainer->hasService($className)) {
+            $command = $this->dependencyInjectionContainer->getNewService($className);
+        } else if (class_exists($className)){
+            $reflectionMethod = new \ReflectionMethod($className, '__construct');
+            if (empty($reflectionMethod->getParameters())) {
+                $command = new $className();
+            } else {
+                throw new CommandNotFoundException();
+            }
+        }
+        return $command;
     }
 
     /**
