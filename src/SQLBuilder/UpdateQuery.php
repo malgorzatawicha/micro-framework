@@ -58,14 +58,14 @@ class UpdateQuery extends Query
     }
 
     /**
-     * @return array
+     * @return array<string|array>
      */
     protected function setClause()
     {
-        $strings = [];
+        $strings    = [];
         $parameters = [];
         foreach ($this->clauses['set'] as $key => $value) {
-            $strings[] = $this->addSetSql($key);
+            $strings[]    = $this->addSetSql($key);
             $parameters[] = $value;
         }
         return ['SET ' . implode(', ', $strings) . ' ', $parameters];
