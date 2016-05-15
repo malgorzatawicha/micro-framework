@@ -43,19 +43,7 @@ abstract class Model
      */
     public function find($id)
     {
-        return $this->doFind(
-            $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::SELECT),
-            $id);
-    }
-
-    /**
-     * @param SelectQuery $selectQuery
-     * @param int $id
-     * @return array|null
-     */
-    private function doFind(SelectQuery $selectQuery, $id)
-    {
-        return $selectQuery->table($this->tableName)
+        return $this->sqlBuilderFactory->getSelectQuery()->table($this->tableName)
             ->where(new Equals($this->primaryKey, $id))->first();
     }
 

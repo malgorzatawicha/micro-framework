@@ -42,6 +42,15 @@ class SQLBuilderFactory
     }
 
     /**
+     * @return SelectQuery
+     * @throws UnrecognizedSqlQueryTypeException
+     */
+    public function getSelectQuery()
+    {
+        return $this->newSqlBuilderInstance(self::SELECT);
+    }
+
+    /**
      * @param string $type
      * @return SelectQuery|InsertQuery|UpdateQuery|DeleteQuery|CustomQuery
      * @throws UnrecognizedSqlQueryTypeException
