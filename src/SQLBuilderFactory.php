@@ -1,5 +1,6 @@
 <?php namespace MW;
 
+use MW\SQLBuilder\CustomQuery;
 use MW\SQLBuilder\DeleteQuery;
 use MW\SQLBuilder\InsertQuery;
 use MW\SQLBuilder\SelectQuery;
@@ -38,7 +39,7 @@ class SQLBuilderFactory
 
     /**
      * @param string $type
-     * @return SelectQuery|InsertQuery|UpdateQuery|DeleteQuery
+     * @return SelectQuery|InsertQuery|UpdateQuery|DeleteQuery|CustomQuery
      * @throws UnrecognizedSqlQueryTypeException
      */
     public function newSqlBuilderInstance($type)

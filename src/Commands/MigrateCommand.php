@@ -1,5 +1,6 @@
 <?php namespace MW\Commands;
 
+use MW\Models\Migration;
 use MW\SQLBuilder\CustomQuery;
 use MW\SQLBuilder\InsertQuery;
 use MW\SQLBuilder\SelectQuery;
@@ -7,12 +8,12 @@ use MW\SQLBuilderFactory;
 
 class MigrateCommand extends Command
 {
-    protected $sqlBuilderFactory;
+    protected $migrationModel;
     protected $migrations = [];
     
-    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $migrations = [])
+    public function __construct(Migration $migrationModel, array $migrations = [])
     {
-        $this->sqlBuilderFactory = $SQLBuilderFactory;
+        $this->migrationModel = $migrationModel;
         $this->migrations = $migrations;
     }
     
@@ -23,7 +24,7 @@ class MigrateCommand extends Command
         foreach ($this->migrations as $migration => $data) {
             if ($this->canExecuteCommand($migration, $migrationsInDb)) {
                 $self = $this;
-                $this->sqlBuilderFactory->connection()->transaction(function() use($self, $data, $migration) {
+                $this->migrationModel->transaction(function() use($self, $data, $migration) {
                     $this->executeCommand($data);
                     $this->saveMigrationStatus($migration);
                 });
@@ -34,11 +35,8 @@ class MigrateCommand extends Command
     protected function getMigrationsInDb()
     {
         $result = [];
-        /** @var SelectQuery $select */
-        $select = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::SELECT);
-        $select->table('migrations');
+        $migrations = $this->migrationModel->get();
         
-        $migrations = $select->all();
         foreach ($migrations as $migration) {
             $result[] = (int)$migration['migration'];
         }
@@ -52,18 +50,11 @@ class MigrateCommand extends Command
 
     protected function executeCommand($data)
     {
-        /** @var CustomQuery $custom */
-        $custom = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM);
-        $custom->query($data['up']);
-        return $custom->execute();
+        return $this->migrationModel->executeCustomQuery($data['up']);
     }
     
     protected function saveMigrationStatus($migration)
     {
-        /** @var InsertQuery $insert */
-        $insert = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::INSERT);
-        $insert->table('migrations')
-            ->data(['migration' => $migration])
-            ->execute();
+        $this->migrationModel->insert(['migration' => $migration]);
     }
 }

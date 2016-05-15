@@ -16,6 +16,7 @@ class CustomQuery extends Query
             'query' => $query,
             'parameters' => $parameters
         ];
+        return $this;
     }
 
     protected function canBuildSql()

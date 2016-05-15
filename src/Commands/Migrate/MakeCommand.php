@@ -1,24 +1,22 @@
 <?php namespace MW\Commands\Migrate;
 
 use MW\Commands\Command;
+use MW\Models\Migration;
 use MW\SQLBuilder\CustomQuery;
 use MW\SQLBuilderFactory;
 
 class MakeCommand extends Command
 {
     private $sql = 'CREATE TABLE migrations(migration int(11))';
-    private $sqlBuilderFactory;
+    private $migrationModel;
     
-    public function __construct(SQLBuilderFactory $SQLBuilderFactory)
+    public function __construct(Migration $migrationModel)
     {
-        $this->sqlBuilderFactory = $SQLBuilderFactory;
+        $this->migrationModel = $migrationModel;
     }
 
     public function execute(array $arguments = [])
     {
-        /** @var CustomQuery $queryBuilder */
-        $queryBuilder = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM);
-        $queryBuilder->query($this->sql);
-        $queryBuilder->execute();
+        return $this->migrationModel->executeCustomQuery($this->sql);
     }
 }

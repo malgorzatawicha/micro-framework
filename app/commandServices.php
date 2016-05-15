@@ -1,7 +1,7 @@
 <?php
 $di = new \MW\DependencyInjectionContainer();
 
-$di->addService('\MW\SQLQueryBuilder', function() use($di) {
+$di->addService('\MW\SQLQueryBuilderFactory', function() use($di) {
     $connectionFactory = new \MW\Connection\ConnectionFactory(
         new \MW\Connection\PDOFactory(),
         require __DIR__ . '/config/db.php'
@@ -9,6 +9,11 @@ $di->addService('\MW\SQLQueryBuilder', function() use($di) {
 
     return new \MW\SQLBuilderFactory($connectionFactory->getConnection('default'));
 });
+
+$di->addService('\MW\Models\Migration', function() use($di) {
+    return new \MW\Models\Migration($di->getService('\MW\SQLBuilderFactory'));
+});
+
 
 $di->addService('\MW\Commands\HelpCommand', function() use($di) {
     $paths = [
@@ -19,19 +24,13 @@ $di->addService('\MW\Commands\HelpCommand', function() use($di) {
 });
 
 $di->addService('\MW\Commands\Migrate\MakeCommand', function() use($di) {
-    /** @var \MW\SQLBuilderFactory $sqlBuilderFactory */
-    $sqlBuilderFactory = $di->getService('\MW\SQLBuilderFactory');
-    return new \MW\Commands\Migrate\MakeCommand($sqlBuilderFactory);
+    return new \MW\Commands\Migrate\MakeCommand($di->getService('\MW\Models\Migration'));
 });
 $di->addService('\MW\Commands\MigrateCommand', function() use($di) {
-    /** @var \MW\SQLBuilderFactory $sqlBuilderFactory */
-    $sqlBuilderFactory = $di->getService('\MW\SQLBuilderFactory');
-    return new \MW\Commands\MigrateCommand($sqlBuilderFactory, require __DIR__ . '/migrations.php');
+    return new \MW\Commands\MigrateCommand($di->getService('\MW\Models\Migration'), require __DIR__ . '/migrations.php');
 });
 
 $di->addService('\MW\Commands\Migrate\RollbackCommand', function() use($di) {
-    /** @var \MW\SQLBuilderFactory $sqlBuilderFactory */
-    $sqlBuilderFactory = $di->getService('\MW\SQLBuilderFactory');
-    return new \MW\Commands\Migrate\RollbackCommand($sqlBuilderFactory, require __DIR__ . '/migrations.php');
+    return new \MW\Commands\Migrate\RollbackCommand($di->getService('\MW\Models\Migration'), require __DIR__ . '/migrations.php');
 });
 return $di;
