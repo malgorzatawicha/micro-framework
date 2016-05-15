@@ -34,7 +34,9 @@ class CommandDispatcher
     private function dispatchCommand($commandName)
     {
         foreach ($this->commands as $className) {
-
+            if (!$this->classNameMatchesCommand($className, $commandName)) {
+                continue;
+            }
             $command = null;
             if ($this->dependencyInjectionContainer->hasService($className)) {
                 $command = $this->dependencyInjectionContainer->getNewService($className);
@@ -52,5 +54,11 @@ class CommandDispatcher
         }
         
         throw new CommandNotFoundException();
+    }
+
+    private function classNameMatchesCommand($className, $commandName)
+    {
+        $classNameToMatch = implode('\\', explode(':', $commandName));
+        return !empty(stristr($className, $classNameToMatch . 'Command'));
     }
 }
