@@ -38,8 +38,9 @@ class PDOFactory
     public function getPDO(array $config)
     {
         $config = array_merge($this->defaultConfig, $config);
+        $dns = sprintf('%s:host=%s;dbname=%s', $config['driver'], $config['host'], $config['name']);
         return new $this->pdoClassName(
-            sprintf('%s:host=%s;dbname=%', $config['driver'], $config['host'], $config['name']),
+            $dns,
             $config['user'],
             $config['password']
         );
