@@ -8,9 +8,9 @@ use MW\SQLBuilderFactory;
 
 class RollbackCommand extends MigrateCommand
 {
-    protected function getMigrationsToLoad()
+    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $migrations)
     {
-        return array_reverse(parent::getMigrationsToLoad(),true);
+        parent::__construct($SQLBuilderFactory, array_reverse($migrations, true));
     }
 
     protected function canExecuteCommand($migration, $migrationsInDb)

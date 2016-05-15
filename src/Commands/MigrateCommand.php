@@ -8,17 +8,19 @@ use MW\SQLBuilderFactory;
 class MigrateCommand extends Command
 {
     protected $sqlBuilderFactory;
+    protected $migrations = [];
     
-    public function __construct(SQLBuilderFactory $SQLBuilderFactory)
+    public function __construct(SQLBuilderFactory $SQLBuilderFactory, array $migrations = [])
     {
         $this->sqlBuilderFactory = $SQLBuilderFactory;
+        $this->migrations = $migrations;
     }
     
     public function execute(array $arguments = [])
     {
         $migrationsInDb = $this->getMigrationsInDb();
 
-        foreach ($this->getMigrationsToLoad() as $migration => $data) {
+        foreach ($this->migrations as $migration => $data) {
             if ($this->canExecuteCommand($migration, $migrationsInDb)) {
                 $self = $this;
                 $this->sqlBuilderFactory->connection()->transaction(function() use($self, $data, $migration) {
@@ -27,11 +29,6 @@ class MigrateCommand extends Command
                 });
             }
         }
-    }
-
-    protected function getMigrationsToLoad()
-    {
-        return require __DIR__ . '/../../app/migrations.php';
     }
     
     protected function getMigrationsInDb()

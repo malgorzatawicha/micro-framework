@@ -26,12 +26,12 @@ $di->addService('\MW\Commands\Migrate\MakeCommand', function() use($di) {
 $di->addService('\MW\Commands\MigrateCommand', function() use($di) {
     /** @var \MW\SQLBuilderFactory $sqlBuilderFactory */
     $sqlBuilderFactory = $di->getService('\MW\SQLBuilderFactory');
-    return new \MW\Commands\MigrateCommand($sqlBuilderFactory);
+    return new \MW\Commands\MigrateCommand($sqlBuilderFactory, require __DIR__ . '/migrations.php');
 });
 
 $di->addService('\MW\Commands\Migrate\RollbackCommand', function() use($di) {
     /** @var \MW\SQLBuilderFactory $sqlBuilderFactory */
     $sqlBuilderFactory = $di->getService('\MW\SQLBuilderFactory');
-    return new \MW\Commands\Migrate\RollbackCommand($sqlBuilderFactory);
+    return new \MW\Commands\Migrate\RollbackCommand($sqlBuilderFactory, require __DIR__ . '/migrations.php');
 });
 return $di;
