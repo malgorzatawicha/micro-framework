@@ -35,6 +35,18 @@ class ConnectionFactory
      */
     public function getConnection($name = 'default')
     {
+        $config    = $this->getConfigByName($name);
+        $className = $this->getClassNameByConfig($config);
+        return new $className($this->pdoFactory->getPDO($config));
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     * @throws ConnectionConfigurationException
+     */
+    private function getConfigByName($name = 'default')
+    {
         if (!array_key_exists($name, $this->configs)) {
             $name = 'default';
         }
@@ -43,16 +55,24 @@ class ConnectionFactory
             throw new ConnectionConfigurationException();
         }
 
-        $config = $this->configs[$name];
+        return $this->configs[$name];
+    }
 
+    /**
+     * @param array $config
+     * @return string
+     * @throws ConnectionConfigurationException
+     */
+    private function getClassNameByConfig(array $config)
+    {
         if (empty($config['driver'])) {
             throw new ConnectionConfigurationException;
         }
         $className = '\MW\Connection\\' . ucfirst($config['driver']) . 'Connection';
-        
+
         if (!class_exists($className)) {
             throw new ConnectionConfigurationException;
         }
-        return new $className($this->pdoFactory->getPDO($config));
+        return $className;
     }
 }
