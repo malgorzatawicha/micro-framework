@@ -12,7 +12,7 @@ class DependencyInjectionContainer
     private $services = [];
 
     /**
-     * @param $name
+     * @param string $name
      * @param callable $callable
      * @return bool
      */
@@ -26,7 +26,7 @@ class DependencyInjectionContainer
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return null|Object
      */
     public function getService($name)
@@ -42,6 +42,10 @@ class DependencyInjectionContainer
         return null;
     }
 
+    /**
+     * @param string $name
+     * @return bool
+     */
     public function hasService($name) {
         return array_key_exists($name, $this->services);   
     }

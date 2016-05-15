@@ -41,7 +41,9 @@ class UpdateQuery extends Query
         return $this;
     }
 
-
+    /**
+     * @return bool
+     */
     protected function canBuildSql()
     {
         return (!empty($this->clauses['table']) && !empty($this->clauses['set']));
@@ -56,16 +58,17 @@ class UpdateQuery extends Query
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function setClause()
     {
         $strings = [];
+        $parameters = [];
         foreach ($this->clauses['set'] as $key => $value) {
             $strings[] = $this->addSetSql($key);
-            $this->addSetParameter($value);
+            $parameters[] = $value;
         }
-        return 'SET ' . implode(', ', $strings) . ' ';
+        return ['SET ' . implode(', ', $strings) . ' ', $parameters];
     }
 
     /**
@@ -75,13 +78,5 @@ class UpdateQuery extends Query
     private function addSetSql($key)
     {
         return $key . '=?';
-    }
-
-    /**
-     * @param mixed $value
-     */
-    private function addSetParameter($value)
-    {
-        $this->parameters[] = $value;
     }
 }

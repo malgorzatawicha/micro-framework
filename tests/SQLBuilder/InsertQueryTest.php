@@ -56,7 +56,7 @@ class InsertQueryTest extends BaseTest
         $this->assertEquals(['prod1', 'm1', 'prod2', 'm2'], $query->parameters());
     }
 
-    public function testInsert()
+    public function testInsertWithParameters()
     {
         $connectionMock = $this->getConnectionMock();
         $connectionMock->expects($this->once())

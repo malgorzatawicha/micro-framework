@@ -52,6 +52,9 @@ class InsertQuery extends Query
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function insert()
     {
         return $this->connection->insert($this->sql(), $this->parameters());
@@ -78,7 +81,11 @@ class InsertQuery extends Query
      */
     protected function dataClause() 
     {
-        return $this->columnsClause() . $this->valuesClause();
+        $columnsClause = $this->columnsClause();
+        $valuesClause = $this->valuesClause();
+        $valuesSql = array_shift($valuesClause);
+        $valuesParameters = array_shift($valuesClause);
+        return [$columnsClause . $valuesSql, $valuesParameters];
     }
     
     /**
@@ -104,11 +111,12 @@ class InsertQuery extends Query
     protected function valuesClause()
     {
         $result = [];
+        $parameters = [];
         foreach ($this->clauses['data'] as $row) {
             $result[] = $this->addRowSqlClause($row);
-            $this->addRowParametersClause($row);
+            $parameters = array_merge($parameters, array_values($row));
         }
-        return 'VALUES ' . implode(', ', $result) . ' ';
+        return ['VALUES ' . implode(', ', $result) . ' ', $parameters];
     }
 
     /**
@@ -119,13 +127,5 @@ class InsertQuery extends Query
     {
         $count = count(array_values($row));
         return '(' . implode(', ', array_fill(0, $count, '?')) . ')';
-    }
-
-    /**
-     * @param array $row
-     */
-    private function addRowParametersClause($row)
-    {
-        $this->parameters = array_merge($this->parameters, array_values($row));
     }
 }

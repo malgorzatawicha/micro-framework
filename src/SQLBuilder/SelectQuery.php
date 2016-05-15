@@ -59,11 +59,17 @@ class SelectQuery extends Query
         return $this;
     }
 
+    /**
+     * @return array|null
+     */
     public function first()
     {
         return $this->connection->fetch($this->sql(), $this->parameters());
     }
 
+    /**
+     * @return array|null
+     */
     public function all()
     {
         return $this->connection->fetchAll($this->sql(), $this->parameters());

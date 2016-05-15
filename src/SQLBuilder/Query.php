@@ -50,7 +50,13 @@ abstract class Query
         $result = '';
         foreach (array_keys($this->clauses) as $name) {
             $methodName = $name . 'Clause';
-            $result    .= $this->$methodName();
+            $clauseResult = $this->$methodName();
+            if (!is_array($clauseResult)) {
+                $result .= $clauseResult;
+            } else {
+                $result .= array_shift($clauseResult);
+                $this->parameters = array_merge($this->parameters, array_shift($clauseResult));
+            }
         }
         return trim($result);
     }
@@ -62,7 +68,10 @@ abstract class Query
     {
         return $this->parameters;
     }
-        
+
+    /**
+     * @return int
+     */
     public function execute()
     {
         return $this->connection->execute($this->sql(), $this->parameters());

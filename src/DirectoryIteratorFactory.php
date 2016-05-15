@@ -1,7 +1,15 @@
 <?php namespace MW;
 
+/**
+ * Class DirectoryIteratorFactory
+ * @package MW
+ */
 class DirectoryIteratorFactory
 {
+    /**
+     * @param string $directory
+     * @return \RecursiveIteratorIterator
+     */
     public function getPhpDirectoryIterator($directory)
     {
         return new \RecursiveIteratorIterator(

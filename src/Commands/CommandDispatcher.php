@@ -2,11 +2,33 @@
 
 use MW\DependencyInjectionContainer;
 
+/**
+ * Class CommandDispatcher
+ * @package MW\Commands
+ */
 class CommandDispatcher
 {
+    /**
+     * @var array
+     */
     private $arguments;
+
+    /**
+     * @var DependencyInjectionContainer
+     */
     private $dependencyInjectionContainer;
+
+    /**
+     * @var array
+     */
     private $commands = [];
+
+    /**
+     * CommandDispatcher constructor.
+     * @param DependencyInjectionContainer $dependencyInjectionContainer
+     * @param array $commands
+     * @param array $arguments
+     */
     public function __construct(
         DependencyInjectionContainer $dependencyInjectionContainer, 
         array $commands,
@@ -17,6 +39,10 @@ class CommandDispatcher
         $this->arguments = $arguments;
     }
 
+    /**
+     * @return bool
+     * @throws CommandNotFoundException
+     */
     public function dispatch()
     {
         $commandName = array_shift($this->arguments);
@@ -30,7 +56,12 @@ class CommandDispatcher
             return $this->dispatchCommand('help');
         }
     }
-    
+
+    /**
+     * @param $commandName
+     * @return bool
+     * @throws CommandNotFoundException
+     */
     private function dispatchCommand($commandName)
     {
         foreach ($this->commands as $className) {
@@ -57,6 +88,11 @@ class CommandDispatcher
         throw new CommandNotFoundException();
     }
 
+    /**
+     * @param string $className
+     * @param string $commandName
+     * @return bool
+     */
     private function classNameMatchesCommand($className, $commandName)
     {
         $classNameToMatch = implode('\\', explode(':', $commandName));

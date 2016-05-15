@@ -26,6 +26,7 @@ trait HasWhereClause
         if (empty($this->clauses['where'])) {
             return '';
         }
+        $totalParameters = [];
         
         $result = [];
         /** @var Criteria $criteria */
@@ -33,9 +34,9 @@ trait HasWhereClause
             $result[]   = $criteria->sql();
             $parameters = $criteria->parameters();
             if (!empty($parameters)) {
-                $this->parameters = array_merge($this->parameters, $parameters);
+                $totalParameters = array_merge($totalParameters, $parameters);
             }
         }
-        return 'WHERE ' . implode(' AND ', $result) . ' ';
+        return ['WHERE ' . implode(' AND ', $result) . ' ', $totalParameters];
     }
 }

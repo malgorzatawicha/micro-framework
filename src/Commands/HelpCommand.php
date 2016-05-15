@@ -3,12 +3,33 @@
 use MW\DirectoryIteratorFactory;
 use MW\Output;
 
+/**
+ * Class HelpCommand
+ * @package MW\Commands
+ */
 class HelpCommand extends Command
 {
+    /**
+     * @var DirectoryIteratorFactory
+     */
     private $directoryIteratorFactory;
+
+    /**
+     * @var Output
+     */
     private $output;
+
+    /**
+     * @var array
+     */
     private $searchPaths;
-    
+
+    /**
+     * HelpCommand constructor.
+     * @param DirectoryIteratorFactory $directoryIteratorFactory
+     * @param Output $output
+     * @param array $searchPaths
+     */
     public function __construct(
         DirectoryIteratorFactory $directoryIteratorFactory,
         Output $output,
@@ -20,6 +41,10 @@ class HelpCommand extends Command
         $this->searchPaths = $searchPaths;
     }
 
+    /**
+     * @param array $arguments
+     * @return bool
+     */
     public function execute(array $arguments = [])
     {        
         $commands = [];
@@ -29,8 +54,13 @@ class HelpCommand extends Command
         }
 
         $this->printCommands($commands);
+        return true;
     }
-    
+
+    /**
+     * @param string $directory
+     * @return array
+     */
     private function findAllFilesInDirectory($directory)
     {
         $result = [];
@@ -46,6 +76,11 @@ class HelpCommand extends Command
         return $result;
     }
 
+    /**
+     * @param string $path
+     * @param array $files
+     * @return array
+     */
     private function makeCommands($path, array $files = [])
     {
         $result = [];
@@ -58,7 +93,10 @@ class HelpCommand extends Command
         }
         return $result;
     }
-    
+
+    /**
+     * @param array $commands
+     */
     private function printCommands(array $commands = [])
     {
         foreach ($commands as $command) {

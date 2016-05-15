@@ -6,10 +6,18 @@
  */
 class CustomQuery extends Query
 {
+    /**
+     * @var array
+     */
     protected $clauses = [
         'custom' => ''
     ];
-    
+
+    /**
+     * @param $query
+     * @param null $parameters
+     * @return $this
+     */
     public function query($query, $parameters = null)
     {
         $this->clauses['custom'] = [
@@ -19,21 +27,26 @@ class CustomQuery extends Query
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     protected function canBuildSql()
     {
         return !empty($this->clauses['custom']);
     }
-    
+
+    /**
+     * @return mixed
+     */
     protected function customClause()
     {
-        $this->parameters = null;
+        $parameters = [];
         if (!empty($this->clauses['custom']['parameters'])) {
             $parameters = $this->clauses['custom']['parameters'];
             if (!is_array($parameters)) {
                 $parameters = [$parameters];
             }
-            $this->parameters = $parameters;
         }
-        return $this->clauses['custom']['query'];
+        return [$this->clauses['custom']['query'], $parameters];
     }
 }

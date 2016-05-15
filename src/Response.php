@@ -34,17 +34,29 @@ class Response
         404 => 'Not Found'
     ];
 
+    /**
+     * Response constructor.
+     * @param Output $output
+     */
     public function __construct(Output $output)
     {
         $this->output = $output;
     }
-    
+
+    /**
+     * @param string $content
+     * @return $this
+     */
     public function setContent($content)
     {
         $this->content = $content;
         return $this;
     }
-    
+
+    /**
+     * @param int $status
+     * @return $this
+     */
     public function setStatus($status)
     {
         if (array_key_exists($status, $this->statuses)) {
@@ -52,12 +64,17 @@ class Response
         }
         return $this;
     }
-    
+
+    /**
+     * @param array $headers
+     * @return $this
+     */
     public function setHeaders(array $headers = [])
     {
         $this->headers = $headers;
         return $this;
     }
+    
     
     public function send()
     {

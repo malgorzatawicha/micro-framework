@@ -12,6 +12,7 @@ use MW\SQLBuilder\UpdateQuery;
  */
 class SQLBuilderFactory
 {
+    
     const SELECT = 'SelectQuery';
     const INSERT = 'InsertQuery';
     const UPDATE = 'UpdateQuery';
@@ -31,7 +32,10 @@ class SQLBuilderFactory
     {
         $this->connection = $connection;
     }
-    
+
+    /**
+     * @return Connection
+     */
     public function connection()
     {
         return $this->connection;
