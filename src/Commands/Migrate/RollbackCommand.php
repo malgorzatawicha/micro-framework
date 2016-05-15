@@ -2,10 +2,6 @@
 
 use MW\Commands\MigrateCommand;
 use MW\Models\Migration;
-use MW\SQLBuilder\Criteria\Equals;
-use MW\SQLBuilder\CustomQuery;
-use MW\SQLBuilder\DeleteQuery;
-use MW\SQLBuilderFactory;
 
 /**
  * Class RollbackCommand
