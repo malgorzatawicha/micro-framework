@@ -26,19 +26,19 @@ class HelpCommand extends Command
 
     /**
      * HelpCommand constructor.
-     * @param DirectoryIteratorFactory $directoryIteratorFactory
+     * @param DirectoryIteratorFactory $factory
      * @param Output $output
      * @param array $searchPaths
      */
     public function __construct(
-        DirectoryIteratorFactory $directoryIteratorFactory,
+        DirectoryIteratorFactory $factory,
         Output $output,
         array $searchPaths
     )
     {
-        $this->directoryIteratorFactory = $directoryIteratorFactory;
-        $this->output = $output;
-        $this->searchPaths = $searchPaths;
+        $this->directoryIteratorFactory = $factory;
+        $this->output                   = $output;
+        $this->searchPaths              = $searchPaths;
     }
 
     /**
@@ -49,7 +49,7 @@ class HelpCommand extends Command
     {        
         $commands = [];
         foreach ($this->searchPaths as $path) {
-            $files = $this->findAllFilesInDirectory($path);
+            $files    = $this->findAllFilesInDirectory($path);
             $commands = array_merge($commands, $this->makeCommands($path, $files));
         }
 
@@ -64,7 +64,7 @@ class HelpCommand extends Command
     private function findAllFilesInDirectory($directory)
     {
         $result = [];
-        $dir = $this->directoryIteratorFactory->getPhpDirectoryIterator($directory);
+        $dir    = $this->directoryIteratorFactory->getPhpDirectoryIterator($directory);
         // output all matches
         if (!empty($dir)) {
             foreach ($dir as $d) {
@@ -86,10 +86,9 @@ class HelpCommand extends Command
         $result = [];
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
-            $filePath = $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename();
+            $filePath    = $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename();
             $commandName = trim(trim(str_replace('Command.php', '', str_replace($path, '', $filePath)), '.'), DIRECTORY_SEPARATOR);
-            
-            $result[] = strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $commandName)));
+            $result[]    = strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $commandName)));
         }
         return $result;
     }
