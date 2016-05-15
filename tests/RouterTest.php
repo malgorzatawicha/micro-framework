@@ -14,7 +14,7 @@ class RouterTest extends BaseTest
     public function testMatchTrue()
     {
         $router = new Router([
-            'dummyUrl' => 'dummyController'
+            'dummyUrl' => 'dummyController@action'
         ]);
         
         $request = $this->getRequestMock();
@@ -22,13 +22,13 @@ class RouterTest extends BaseTest
         
         $result = $router->execute($request);
         
-        $this->assertEquals('dummyController', $result);
+        $this->assertEquals(['dummyController', 'action'], $result);
     }
 
     public function testMatchFalse()
     {
         $router = new Router([
-            'dummy2Url' => 'dummy2Controller'
+            'dummy2Url' => 'dummy2Controller@action'
         ]);
         
         $request = $this->getRequestMock();
@@ -41,7 +41,7 @@ class RouterTest extends BaseTest
     public function testHttpGetMethodMatchTrue()
     {
         $router = new Router([
-            'get@dummyUrl' => 'dummyController'
+            'get@dummyUrl' => 'dummyController@action'
         ]);
         
         $request = $this->getRequestMock();
@@ -50,13 +50,13 @@ class RouterTest extends BaseTest
 
         $result = $router->execute($request);
 
-        $this->assertEquals('dummyController', $result);
+        $this->assertEquals(['dummyController', 'action'], $result);
     }
 
     public function testHttpGetMethodMatchFalse()
     {
         $router = new Router([
-            'get@dummyUrl' => 'dummyController'
+            'get@dummyUrl' => 'dummyController@action'
         ]);
         
         $request = $this->getRequestMock();
@@ -71,7 +71,7 @@ class RouterTest extends BaseTest
     public function testNonExistingHttpMethodMatchFalse()
     {
         $router = new Router([
-            'nonExisting@dummyUrl' => 'dummyController'
+            'nonExisting@dummyUrl' => 'dummyController@action'
         ]);
 
         $request = $this->getRequestMock();
