@@ -8,8 +8,12 @@ $request = $di->getService('request');
 /** @var \MW\Router $router */
 $router = $di->getService('router');
 
-$controller = $di->getNewService($router->execute($request));
+list($controllerName, $action) = $router->execute($request);
+$controller = $di->getNewService($controllerName);
 
+if (empty($controller)) {
+    $controller = new $controllerName($di->getService('request'), $di->getService('response'));
+}
 /** @var \MW\Response $response */
-$response = $controller->execute();
+$response = $controller->$action();
 $response->send();

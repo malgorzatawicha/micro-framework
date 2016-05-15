@@ -28,7 +28,7 @@ class Router
     {
         foreach ($this->routes as $route => $controllerName) {
             if ($this->match($route, $request)){
-                return $controllerName;
+                return explode('@', $controllerName);
             }
         }
         return null;

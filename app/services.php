@@ -15,7 +15,7 @@ $di->addService('router', function() {
     return new \MW\Router($routes);
 });
 
-$di->addService('\App\Controller\HomeController', function() use($di) {
+$di->addService('\App\Controllers\HomeController', function() use($di) {
     /** @var \MW\Request $request */
     $request = $di->getService('request');
     /** @var \MW\Response $response */
@@ -23,18 +23,3 @@ $di->addService('\App\Controller\HomeController', function() use($di) {
     return new \App\Controllers\HomeController($request, $response);
 });
 
-$di->addService('\App\Controller\GetFooController', function() use($di) {
-    /** @var \MW\Request $request */
-    $request = $di->getService('request');
-    /** @var \MW\Response $response */
-    $response = $di->getService('response');
-   return new \App\Controllers\GetFooController($request, $response);
-});
-
-$di->addService('\App\Controller\PostFooController', function() use($di) {
-    /** @var \MW\Request $request */
-    $request = $di->getService('request');
-    /** @var \MW\Response $response */
-    $response = $di->getService('response');
-    return new \App\Controllers\PostFooController($request, $response);
-});

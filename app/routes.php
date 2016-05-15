@@ -1,6 +1,5 @@
 <?php
 return [
-    'get@' => '\App\HomeController',
-    'get@foo' => '\App\GetFooController',
-    'post@foo' => '\App\PostFooController',
+    'get@' => '\App\Controllers\HomeController@welcome',
+    'get@posts' => '\App\Controllers\PostsController@listAction',
 ];
