@@ -41,9 +41,10 @@ class CommandDispatcher
             if ($this->dependencyInjectionContainer->hasService($className)) {
                 $command = $this->dependencyInjectionContainer->getNewService($className);
             } else if (class_exists($className)){
-                try {
-                    $command = new $className();
-                } catch (\Exception $e) {
+                $reflectionMethod = new \ReflectionMethod($className, '__construct');
+                if (empty($reflectionMethod->getParameters())) {
+                    $command = new $className();    
+                } else {
                     throw new CommandNotFoundException();
                 }
             }
