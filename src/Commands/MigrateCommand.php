@@ -26,7 +26,7 @@ class MigrateCommand extends Command
     public function __construct(Migration $migrationModel, array $migrations = [])
     {
         $this->migrationModel = $migrationModel;
-        $this->migrations = $migrations;
+        $this->migrations     = $migrations;
     }
 
     /**
@@ -53,7 +53,7 @@ class MigrateCommand extends Command
      */
     protected function getMigrationsInDb()
     {
-        $result = [];
+        $result     = [];
         $migrations = $this->migrationModel->get();
         
         foreach ($migrations as $migration) {
