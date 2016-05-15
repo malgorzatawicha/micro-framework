@@ -6,13 +6,14 @@ class CommandDispatcher
 {
     private $arguments;
     private $dependencyInjectionContainer;
-    private $searchPaths = [
-        '\App\Commands',
-        '\MW\Commands'
-    ];
-    public function __construct(DependencyInjectionContainer $dependencyInjectionContainer, array $arguments = [])
+    private $commands = [];
+    public function __construct(
+        DependencyInjectionContainer $dependencyInjectionContainer, 
+        array $commands,
+        array $arguments = [])
     {
         $this->dependencyInjectionContainer = $dependencyInjectionContainer;
+        $this->commands = $commands;
         $this->arguments = $arguments;
     }
 
@@ -30,33 +31,26 @@ class CommandDispatcher
         }
     }
     
-    private function buildClassName($basePath, $commandName)
-    {
-
-        $className = $basePath;
-        foreach (explode(':', $commandName) as $commandPart) {
-            $className .= '\\' . ucfirst($commandPart);
-        }
-        $className .= 'Command';
-        return $className;
-    }
-
     private function dispatchCommand($commandName)
     {
-        foreach ($this->searchPaths as $path) {
-            $className = $this->buildClassName($path, $commandName);
-            if (class_exists($className)) {
-                if ($this->dependencyInjectionContainer->hasService($className)) {
-                    $command = $this->dependencyInjectionContainer->getNewService($className);
-                } else {
-                    $command = new $className();    
-                }
-                
-                if ($command instanceof Command) {
-                    return $command->execute($this->arguments);
+        foreach ($this->commands as $className) {
+
+            $command = null;
+            if ($this->dependencyInjectionContainer->hasService($className)) {
+                $command = $this->dependencyInjectionContainer->getNewService($className);
+            } else if (class_exists($className)){
+                try {
+                    $command = new $className();
+                } catch (\Exception $e) {
+                    throw new CommandNotFoundException();
                 }
             }
+            
+            if ($command instanceof Command) {
+                return $command->execute($this->arguments);
+            }
         }
+        
         throw new CommandNotFoundException();
     }
 }

@@ -7,11 +7,7 @@ use Tests\BaseTest;
 
 class HelpCommandTest extends BaseTest
 {
-    private function getDirectoryIteratorFactoryMock()
-    {
-        return $this->getMockBuilder('\MW\DirectoryIteratorFactory')
-            ->getMock();
-    }
+
     public function testClassExists()
     {
         $class = new HelpCommand($this->getDirectoryIteratorFactoryMock(), $this->getOutputMock(), []);

@@ -72,4 +72,17 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         $mock->expects($this->once())->method('execute')->willReturn($result);
         return $mock;
     }
+    
+    protected function getMigrationModelMock()
+    {
+        return $this->getMockBuilder('\MW\Models\Migration')
+            ->setConstructorArgs(['sqlBuilderFactory' => $this->getSqlBuilderFactoryMock()])
+            ->getMock();
+    }
+
+    protected function getDirectoryIteratorFactoryMock()
+    {
+        return $this->getMockBuilder('\MW\DirectoryIteratorFactory')
+            ->getMock();
+    }
 }
