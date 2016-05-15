@@ -15,7 +15,7 @@ class CustomQuery extends Query
 
     /**
      * @param $query
-     * @param null $parameters
+     * @param array|null $parameters
      * @return $this
      */
     public function query($query, $parameters = null)
