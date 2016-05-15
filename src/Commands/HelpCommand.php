@@ -52,7 +52,7 @@ class HelpCommand extends Command
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
             $filePath = $file->getPath() . DIRECTORY_SEPARATOR . $file->getFilename();
-            $commandName = trim(str_replace('Command.php', '', str_replace($path, '', $filePath)), DIRECTORY_SEPARATOR);
+            $commandName = trim(trim(str_replace('Command.php', '', str_replace($path, '', $filePath)), '.'), DIRECTORY_SEPARATOR);
             
             $result[] = strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $commandName)));
         }
