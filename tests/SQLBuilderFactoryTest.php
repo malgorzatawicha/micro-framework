@@ -49,4 +49,16 @@ class SQLBuilderFactoryTest extends BaseTest
         $class = $this->buildClass();
         $this->assertInstanceOf('\MW\SQLBuilder\DeleteQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::DELETE));
     }
+
+    public function testBuildingCustomQuery()
+    {
+        $class = $this->buildClass();
+        $this->assertInstanceOf('\MW\SQLBuilder\CustomQuery', $class->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM));
+    }
+
+    public function testGettingConnection()
+    {
+        $class = $this->buildClass();
+        $this->assertInstanceOf('\MW\Connection', $class->connection());
+    }
 }
