@@ -1,16 +1,16 @@
 <?php
 $di = new \MW\DependencyInjectionContainer();
 
-$di->addService('request', function() use($di) {
+$di->addService('request', function() {
   return new \MW\Request(new \MW\RequestValue($GLOBALS));
 });
 
-$di->addService('response', function() use($di) {
+$di->addService('response', function() {
     return new \MW\Response(new \MW\Output());
 });
 
 
-$di->addService('router', function() use($di) {
+$di->addService('router', function() {
     $routes = require __DIR__ . '/routes.php';
     return new \MW\Router($routes);
 });
