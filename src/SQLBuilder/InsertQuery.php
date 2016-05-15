@@ -77,7 +77,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function dataClause() 
     {
@@ -106,7 +106,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * @return string
+     * @return array
      */
     protected function valuesClause()
     {
