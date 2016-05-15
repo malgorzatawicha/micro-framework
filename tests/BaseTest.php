@@ -54,4 +54,22 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs(['pdo' => $this->getPDOMock()])
             ->getMock();
     }
+    
+    protected function getSqlBuilderFactoryMock()
+    {
+        return $this->getMockBuilder('\MW\SQLBuilderFactory')
+            ->setConstructorArgs(['connection' => $this->getConnectionMock()])
+            ->getMock();
+    }
+
+    protected function getCustomQueryMock($query, $result = true)
+    {
+        $mock = $this->getMockBuilder('\MW\SQLBuilder\CustomQuery')
+            ->setConstructorArgs(['connection' => $this->getConnectionMock()])
+            ->getMock();
+        
+        $mock->expects($this->once())->method('query')->with($query)->willReturn(null);
+        $mock->expects($this->once())->method('execute')->willReturn($result);
+        return $mock;
+    }
 }
