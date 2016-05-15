@@ -108,10 +108,10 @@ class HelpCommand extends Command
      */
     private function getCommandName($basePath, $filePath)
     {
-        $pathWithoutBasePath         = str_replace($basePath, '', $filePath);
-        $pathWithoutCommandPart      = str_replace('Command.php', '', $pathWithoutBasePath);
-        $pathWithoutUnnecessaryChars = trim(trim($pathWithoutCommandPart, '.'), DIRECTORY_SEPARATOR); 
-        return strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $pathWithoutUnnecessaryChars)));
+        $pathWithoutBasePath = str_replace($basePath, '', $filePath);
+        $pathToPortToCommand = str_replace('Command.php', '', $pathWithoutBasePath);
+        $cleanedPath         = trim(trim($pathToPortToCommand, '.'), DIRECTORY_SEPARATOR);
+        return strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $cleanedPath)));
     }
 
     /**
