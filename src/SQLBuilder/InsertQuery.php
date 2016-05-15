@@ -53,7 +53,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function insert()
     {

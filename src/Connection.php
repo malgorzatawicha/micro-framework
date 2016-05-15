@@ -61,7 +61,7 @@ class Connection
     /**
      * @param string $sql
      * @param array|null $parameters
-     * @return int
+     * @return string
      * @throws ConnectionException
      */
     public function insert($sql, $parameters = null) {

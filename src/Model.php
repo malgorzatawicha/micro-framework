@@ -63,7 +63,7 @@ abstract class Model
 
     /**
      * @param array $data
-     * @return int
+     * @return string
      * @throws UnrecognizedSqlQueryTypeException
      */
     public function insert(array $data)
