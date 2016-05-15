@@ -77,42 +77,46 @@ class InsertQuery extends Query
     }
 
     /**
+     * @param array $clause
      * @return array
      */
-    protected function dataClause() 
+    protected function dataClause(array $clause) 
     {
-        $columnsClause    = $this->columnsClause();
-        $valuesClause     = $this->valuesClause();
+        $columnsClause    = $this->columnsClause($clause);
+        $valuesClause     = $this->valuesClause($clause);
         $valuesSql        = array_shift($valuesClause);
         $valuesParameters = array_shift($valuesClause);
         return [$columnsClause . $valuesSql, $valuesParameters];
     }
     
     /**
+     * @param array $clause
      * @return string
      */
-    protected function tableClause()
+    protected function tableClause(array $clause)
     {
-        return 'INSERT INTO ' . $this->clauses['table'] . ' ';
+        return 'INSERT INTO ' . $clause . ' ';
     }
 
     /**
+     * @param array $clause
      * @return string
      */
-    protected function columnsClause()
+    protected function columnsClause(array $clause)
     {
-        $firstRow = reset($this->clauses['data']);
+        $firstRow = reset($clause);
         return '(' . implode(', ', array_keys($firstRow)) . ') ';
     }
 
     /**
+     * @param array $clause
      * @return array
      */
-    protected function valuesClause()
+    protected function valuesClause(array $clause)
     {
         $result     = [];
         $parameters = [];
-        foreach ($this->clauses['data'] as $row) {
+        foreach ($clause as $row) {
             $result[]   = $this->addRowSqlClause($row);
             $parameters = array_merge($parameters, array_values($row));
         }

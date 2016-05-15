@@ -84,27 +84,29 @@ class SelectQuery extends Query
     }
 
     /**
+     * @param array $clause
      * @return string
      */
-    protected function selectClause()
+    protected function selectClause(array $clause)
     {
-        if (empty($this->clauses['select'])) {
+        if (empty($clause)) {
             return 'SELECT * ';
         }
         $strings = [];
-        foreach ($this->clauses['select'] as $key => $value) {
+        foreach ($clause as $key => $value) {
             $strings[] = $key . (!empty($value)?' AS ' . $value:'');
         }
         return 'SELECT ' . implode(', ', $strings) . ' ';
     }
 
     /**
+     * @param array $clause
      * @return string
      */
-    protected function tableClause()
+    protected function tableClause(array $clause)
     {
-        return 'FROM ' . $this->clauses['table']['name'] . 
-        (!empty($this->clauses['table']['alias'])?' AS ' . $this->clauses['table']['alias']: '') . ' ';
+        return 'FROM ' . $clause['name'] . 
+        (!empty($clause['alias'])?' AS ' . $clause['alias']: '') . ' ';
     }
     
 }

@@ -37,10 +37,11 @@ class DeleteQuery extends Query
     }
 
     /**
+     * @param array $clause
      * @return string
      */
-    protected function tableClause()
+    protected function tableClause(array $clause)
     {
-        return 'DELETE FROM ' . $this->clauses['table'] . ' ';
+        return 'DELETE FROM ' . $clause . ' ';
     }
 }

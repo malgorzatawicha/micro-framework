@@ -19,18 +19,19 @@ trait HasWhereClause
     }
 
     /**
+     * @param array $clause
      * @return string
      */
-    protected function whereClause()
+    protected function whereClause(array $clause)
     {
-        if (empty($this->clauses['where'])) {
+        if (empty($clause)) {
             return '';
         }
         $totalParameters = [];
         
         $result = [];
         /** @var Criteria $criteria */
-        foreach ($this->clauses['where'] as $criteria) {
+        foreach ($clause as $criteria) {
             $result[]   = $criteria->sql();
             $parameters = $criteria->parameters();
             if (!empty($parameters)) {

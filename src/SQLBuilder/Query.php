@@ -48,9 +48,9 @@ abstract class Query
         }
         
         $result = '';
-        foreach (array_keys($this->clauses) as $name) {
+        foreach ($this->clauses as $name => $clause) {
             $methodName   = $name . 'Clause';
-            $clauseResult = $this->$methodName();
+            $clauseResult = $this->$methodName($clause);
             if (!is_array($clauseResult)) {
                 $result .= $clauseResult;
             } else {

@@ -36,17 +36,18 @@ class CustomQuery extends Query
     }
 
     /**
+     * @param array $clause
      * @return mixed
      */
-    protected function customClause()
+    protected function customClause(array $clause)
     {
         $parameters = [];
-        if (!empty($this->clauses['custom']['parameters'])) {
-            $parameters = $this->clauses['custom']['parameters'];
+        if (!empty($clause['parameters'])) {
+            $parameters = $clause['parameters'];
             if (!is_array($parameters)) {
                 $parameters = [$parameters];
             }
         }
-        return [$this->clauses['custom']['query'], $parameters];
+        return [$clause['query'], $parameters];
     }
 }

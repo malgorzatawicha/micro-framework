@@ -58,13 +58,14 @@ class UpdateQuery extends Query
     }
 
     /**
+     * @param array $clause
      * @return array<string|array>
      */
-    protected function setClause()
+    protected function setClause(array $clause)
     {
         $strings    = [];
         $parameters = [];
-        foreach ($this->clauses['set'] as $key => $value) {
+        foreach ($clause as $key => $value) {
             $strings[]    = $this->addSetSql($key);
             $parameters[] = $value;
         }
