@@ -104,7 +104,7 @@ class InsertQuery extends Query
      */
     protected function columnsClause(array $clause)
     {
-        $result = [];
+        $result      = [];
         $columnNames = array_keys(reset($clause));
         foreach ($columnNames as $name) {
             $result[] = $this->connection->escapeName($name);
