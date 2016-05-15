@@ -86,8 +86,8 @@ class HelpCommand extends Command
         $result = [];
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
-            $filePath    = $this->getFilename($file);
-            $result[]    = $this->getCommandName($path, $filePath);
+            $filePath = $this->getFilename($file);
+            $result[] = $this->getCommandName($path, $filePath);
         }
         return $result;
     }
@@ -108,8 +108,8 @@ class HelpCommand extends Command
      */
     private function getCommandName($basePath, $filePath)
     {
-        $pathWithoutBasePath = str_replace($basePath, '', $filePath);
-        $pathWithoutCommandPart = str_replace('Command.php', '', $pathWithoutBasePath);
+        $pathWithoutBasePath         = str_replace($basePath, '', $filePath);
+        $pathWithoutCommandPart      = str_replace('Command.php', '', $pathWithoutBasePath);
         $pathWithoutUnnecessaryChars = trim(trim($pathWithoutCommandPart, '.'), DIRECTORY_SEPARATOR); 
         return strtolower(implode(':', explode(DIRECTORY_SEPARATOR, $pathWithoutUnnecessaryChars)));
     }
