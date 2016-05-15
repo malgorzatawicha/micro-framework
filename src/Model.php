@@ -39,7 +39,6 @@ abstract class Model
     /**
      * @param int $id
      * @return array|null
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function find($id)
     {
@@ -49,7 +48,6 @@ abstract class Model
 
     /**
      * @return array|null
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function get()
     {
@@ -59,7 +57,6 @@ abstract class Model
     /**
      * @param array $data
      * @return string
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function insert(array $data)
     {
@@ -69,7 +66,6 @@ abstract class Model
     /**
      * @param array $data
      * @return int
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function delete(array $data)
     {
@@ -93,7 +89,6 @@ abstract class Model
      * @param string $query
      * @param array|null $parameters
      * @return int
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function executeCustomQuery($query, $parameters = null)
     {

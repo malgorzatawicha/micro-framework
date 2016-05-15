@@ -43,7 +43,6 @@ class SQLBuilderFactory
 
     /**
      * @return SelectQuery
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function getSelectQuery()
     {
@@ -52,7 +51,6 @@ class SQLBuilderFactory
 
     /**
      * @return InsertQuery
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function getInsertQuery()
     {
@@ -61,7 +59,6 @@ class SQLBuilderFactory
 
     /**
      * @return DeleteQuery
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function getDeleteQuery()
     {
@@ -70,7 +67,6 @@ class SQLBuilderFactory
 
     /**
      * @return UpdateQuery
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function getUpdateQuery()
     {
@@ -79,7 +75,6 @@ class SQLBuilderFactory
 
     /**
      * @return CustomQuery
-     * @throws UnrecognizedSqlQueryTypeException
      */
     public function getCustomQuery()
     {
@@ -89,14 +84,10 @@ class SQLBuilderFactory
     /**
      * @param string $type
      * @return SelectQuery|InsertQuery|UpdateQuery|DeleteQuery|CustomQuery
-     * @throws UnrecognizedSqlQueryTypeException
      */
     private function newSqlBuilderInstance($type)
     {
         $className = '\MW\SQLBuilder\\' . $type ;
-        if (class_exists($className)) {
-            return new $className($this->connection);    
-        }
-        throw new UnrecognizedSqlQueryTypeException();
+        return new $className($this->connection);
     }
 }
