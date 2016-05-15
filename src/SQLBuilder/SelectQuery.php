@@ -94,16 +94,20 @@ class SelectQuery extends Query
         }
         $strings = [];
         foreach ($clause as $key => $value) {
-            $columnNameParts = explode('.', $key);
-            $columnName      = [];
-            foreach ($columnNameParts as $columnNamePart) {
-                $columnName[] = $this->connection->escapeName($columnNamePart);
-            }
-            
-            $strings[] = implode('.', $columnName) 
+            $strings[] = $this->buildColumnName($key) 
                 . (!empty($value)?' AS ' . $this->connection->escapeName($value):'');
         }
         return 'SELECT ' . implode(', ', $strings) . ' ';
+    }
+    
+    private function buildColumnName($key)
+    {
+        $columnNameParts = explode('.', $key);
+        $columnName      = [];
+        foreach ($columnNameParts as $columnNamePart) {
+            $columnName[] = $this->connection->escapeName($columnNamePart);
+        }
+        return implode('.', $columnName);
     }
 
     /**
