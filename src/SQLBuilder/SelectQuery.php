@@ -102,12 +102,7 @@ class SelectQuery extends Query
     
     private function buildColumnName($key)
     {
-        $columnNameParts = explode('.', $key);
-        $columnName      = [];
-        foreach ($columnNameParts as $columnNamePart) {
-            $columnName[] = $this->connection->escapeName($columnNamePart);
-        }
-        return implode('.', $columnName);
+        return implode('.', $this->escapeNames(explode('.', $key )));
     }
 
     /**

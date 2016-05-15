@@ -76,4 +76,13 @@ abstract class Query
     {
         return $this->connection->execute($this->sql(), $this->parameters());
     }
+
+    protected function escapeNames(array $names)
+    {
+        $result = [];
+        foreach ($names as $name) {
+            $result[] = $this->connection->escapeName($name);
+        }
+        return $result;
+    }
 }
