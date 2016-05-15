@@ -90,10 +90,10 @@ class InsertQuery extends Query
     }
     
     /**
-     * @param array $clause
+     * @param string $clause
      * @return string
      */
-    protected function tableClause(array $clause)
+    protected function tableClause($clause)
     {
         return 'INSERT INTO ' . $clause . ' ';
     }

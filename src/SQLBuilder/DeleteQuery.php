@@ -37,10 +37,10 @@ class DeleteQuery extends Query
     }
 
     /**
-     * @param array $clause
+     * @param string $clause
      * @return string
      */
-    protected function tableClause(array $clause)
+    protected function tableClause($clause)
     {
         return 'DELETE FROM ' . $clause . ' ';
     }

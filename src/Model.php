@@ -107,9 +107,9 @@ abstract class Model
     public function executeCustomQuery($query)
     {
         /** @var CustomQuery $query */
-        $query = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM);
+        $sqlQueryBuilder = $this->sqlBuilderFactory->newSqlBuilderInstance(SQLBuilderFactory::CUSTOM);
         
-        return $query->query($query)->execute();
+        return $sqlQueryBuilder->query($query)->execute();
 
     }
 }
