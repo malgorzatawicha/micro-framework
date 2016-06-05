@@ -85,9 +85,17 @@ class CollectionTest extends BaseTest
         $class = new Collection([1, 2, 3]);
         
         $result = [];
-        foreach ($class as $value) {
-            $result[] = $value;
+        foreach ($class as $key => $value) {
+            $result[$key] = $value;
         }
-        $this->assertEquals([1, 2, 3], $result);
+        $this->assertEquals([0 => 1, 1 => 2, 2 => 3], $result);
+    }
+    
+    public function testIncludesAnyOfMethod()
+    {
+        $class = new Collection([1, 2, 3]);
+        $this->assertTrue($class->includesAnyOf(new Collection([2])));
+        $this->assertTrue($class->includesAnyOf(new Collection([5, 2])));
+        $this->assertFalse($class->includesAnyOf(new Collection([5, 6])));
     }
 }

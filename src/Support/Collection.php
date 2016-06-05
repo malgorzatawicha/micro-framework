@@ -79,4 +79,14 @@ class Collection implements \ArrayAccess, \Iterator
     {
         return reset($this->elements);
     }
+    
+    public function includesAnyOf(Collection $collection)
+    {
+        foreach ($collection as $element) {
+            if ($this->includes($element)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
