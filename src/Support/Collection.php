@@ -204,6 +204,13 @@ class Collection implements \ArrayAccess, \Iterator
         }
         return $result;
     }
+
+    public function addAll(Collection $collection)
+    {
+        foreach ($collection as $element) {
+            $this->add($element);
+        }
+    }
     
     private function reindex()
     {
