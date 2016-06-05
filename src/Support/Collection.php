@@ -39,4 +39,9 @@ class Collection implements \ArrayAccess
         $countedValues = array_count_values($this->elements);
         return isset($countedValues[$value])?$countedValues[$value]:0;
     }
+    
+    public function isNotEmpty()
+    {
+        return $this->size() > 0;
+    }
 }

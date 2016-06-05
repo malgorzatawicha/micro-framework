@@ -53,4 +53,14 @@ class CollectionTest extends BaseTest
         $this->assertEquals(2, $class->occurrencesOf(2));
         $this->assertEquals(0, $class->occurrencesOf(5));
     }
+    
+    public function testNotEmptyMethod()
+    {
+        $class = new Collection();
+        $this->assertFalse($class->isNotEmpty());
+
+        $class = new Collection([1, 2, 3]);
+        $this->assertTrue($class->isNotEmpty());
+
+    }
 }
