@@ -89,4 +89,9 @@ class Collection implements \ArrayAccess, \Iterator
         }
         return false;
     }
+    
+    public function toArray()
+    {
+        return $this->elements;
+    }
 }

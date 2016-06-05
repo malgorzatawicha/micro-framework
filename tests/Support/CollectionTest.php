@@ -98,4 +98,10 @@ class CollectionTest extends BaseTest
         $this->assertTrue($class->includesAnyOf(new Collection([5, 2])));
         $this->assertFalse($class->includesAnyOf(new Collection([5, 6])));
     }
+    
+    public function testToArrayMethod()
+    {
+        $class = new Collection([1, 2, 3]);
+        $this->assertEquals([1, 2, 3], $class->toArray());        
+    }
 }
