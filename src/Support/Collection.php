@@ -119,6 +119,12 @@ class Collection implements \ArrayAccess, \Iterator
         $this->reindex();
     }
     
+    public function removeAll(Collection $collection)
+    {
+        foreach ($collection as $element) {
+            $this->remove($element);
+        }
+    }
     private function reindex()
     {
         $this->elements = array_values($this->elements);

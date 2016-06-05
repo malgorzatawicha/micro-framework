@@ -127,4 +127,11 @@ class CollectionTest extends BaseTest
         $class->remove(2);
         $this->assertEquals([1, 3], $class->toArray());
     }
+    
+    public function testRemoveAll()
+    {
+        $class = new Collection([2, 1, 2, 3]);
+        $class->removeAll(new Collection([2, 4]));
+        $this->assertEquals([1, 3], $class->toArray());
+    }
 }
