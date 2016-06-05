@@ -141,5 +141,15 @@ class CollectionTest extends BaseTest
         $class->add(4);
         $this->assertEquals([1, 2, 3, 4], $class->toArray());
     }
+    public function testSelect()
+    {
+        $class = new Collection([1, 2, 3]);
+        $newCollection = $class->select(function($key, $value) {
+            return $value >= 2;
+        });
 
+        $this->assertEquals([1, 2, 3], $class->toArray());
+        $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
+        $this->assertEquals([2, 3], $newCollection->toArray());
+    }
 }
