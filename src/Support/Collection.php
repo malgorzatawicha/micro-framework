@@ -48,4 +48,10 @@ class Collection implements \ArrayAccess
     {
         return !$this->isEmpty();
     }
+
+    public function includes($value) 
+    {
+        return false !== array_search($value, $this->elements);    
+    }
+    
 }
