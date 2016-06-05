@@ -18,4 +18,11 @@ class CollectionTest extends BaseTest
         $this->assertEquals(2, $class[1]);
         $this->assertEquals(3, $class[2]);
     }
+    
+    public function testCanChangeElementOfCollection()
+    {
+        $class = new Collection([1, 2, 3]);
+        $class[1] = 5;
+        $this->assertEquals(5, $class[1]);
+    }
 }
