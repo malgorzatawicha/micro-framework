@@ -125,6 +125,12 @@ class Collection implements \ArrayAccess, \Iterator
             $this->remove($element);
         }
     }
+    
+    public function add($value)
+    {
+        $this->elements[] = $value;
+    }
+    
     private function reindex()
     {
         $this->elements = array_values($this->elements);
