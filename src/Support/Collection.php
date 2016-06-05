@@ -131,6 +131,28 @@ class Collection implements \ArrayAccess, \Iterator
         $this->elements[] = $value;
     }
     
+    public function select(callable $block)
+    {
+        $result = new Collection();
+        foreach ($this->elements as $key => $value) {
+            if ($block($key, $value)) {
+                $result->add($value);
+            }
+        }
+        return $result;
+    }
+
+    public function reject(callable $block)
+    {
+        $result = new Collection();
+        foreach ($this->elements as $key => $value) {
+            if (!$block($key, $value)) {
+                $result->add($value);
+            }
+        }
+        return $result;
+    }
+    
     private function reindex()
     {
         $this->elements = array_values($this->elements);

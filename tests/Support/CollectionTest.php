@@ -141,6 +141,7 @@ class CollectionTest extends BaseTest
         $class->add(4);
         $this->assertEquals([1, 2, 3, 4], $class->toArray());
     }
+    
     public function testSelect()
     {
         $class = new Collection([1, 2, 3]);
@@ -151,5 +152,17 @@ class CollectionTest extends BaseTest
         $this->assertEquals([1, 2, 3], $class->toArray());
         $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
         $this->assertEquals([2, 3], $newCollection->toArray());
+    }
+
+    public function testReject()
+    {
+        $class = new Collection([1, 2, 3, 1]);
+        $newCollection = $class->reject(function($key, $value) {
+            return $value >= 2;
+        });
+
+        $this->assertEquals([1, 2, 3, 1], $class->toArray());
+        $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
+        $this->assertEquals([1, 1], $newCollection->toArray());
     }
 }
