@@ -185,6 +185,17 @@ class Collection implements \ArrayAccess, \Iterator
         return $result;
     }
     
+    public function copyReplacing($targetValue, $withValue)
+    {
+        $result = $this->copy();
+        foreach ($result as $key => $value) {
+            if ($value == $targetValue) {
+                $result[$key] = $withValue;
+            }
+        }
+        return $result;
+    }
+    
     private function reindex()
     {
         $this->elements = array_values($this->elements);

@@ -201,4 +201,11 @@ class CollectionTest extends BaseTest
         $this->assertEquals([1, 3], $newCollection->toArray());
     }
 
+    public function testCopyReplacing()
+    {
+        $class = new Collection([2, 1, 2, 3]);
+        $newCollection = $class->copyReplacing(2, 5);
+        $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
+        $this->assertEquals([5, 1, 5, 3], $newCollection->toArray());
+    }
 }
