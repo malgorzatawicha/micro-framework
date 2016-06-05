@@ -6,54 +6,7 @@
  */
 class Collection implements \ArrayAccess, \Iterator
 {
-    /**
-     * @var array
-     */
-    private $elements;
-
-    /**
-     * Collection constructor.
-     * @param array $elements
-     */
-    public function __construct(array $elements = [])
-    {
-        $this->elements = $elements;
-    }
-
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return array_key_exists($offset, $this->elements);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return mixed
-     */
-    public function offsetGet($offset)
-    {
-        return $this->elements[$offset];
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->elements[$offset] = $value;
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->elements[$offset]);
-    }
+    use Arrayable, Iterable;
 
     /**
      * @return int
@@ -70,7 +23,7 @@ class Collection implements \ArrayAccess, \Iterator
     public function occurrencesOf($value)
     {
         $countedValues = array_count_values($this->elements);
-        return isset($countedValues[$value])?$countedValues[$value]:0;
+        return isset($countedValues[$value]) ? $countedValues[$value] : 0;
     }
 
     /**
@@ -93,52 +46,11 @@ class Collection implements \ArrayAccess, \Iterator
      * @param $value
      * @return bool
      */
-    public function includes($value) 
+    public function includes($value)
     {
-        return false !== array_search($value, $this->elements);    
+        return false !== array_search($value, $this->elements);
     }
-
-    /**
-     * @return mixed
-     */
-    public function current()
-    {
-        return current($this->elements);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function next()
-    {
-        return next($this->elements);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function key()
-    {
-        return key($this->elements);
-    }
-
-    /**
-     * @return bool
-     */
-    public function valid()
-    {
-        $key = key($this->elements);
-        return ($key !== null && $key !== false);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function rewind()
-    {
-        return reset($this->elements);
-    }
-
+    
     /**
      * @param Collection $collection
      * @return bool
@@ -163,53 +75,56 @@ class Collection implements \ArrayAccess, \Iterator
 
     /**
      * @param callable $block
+     * @return $this
      */
     public function removeAllSuchThatMethod(callable $block)
     {
-        foreach ($this->elements as $key => $value) {
-            if ($block($key, $value)) {
-                unset($this->elements[$key]);
-            }
-        }
-        $this->reindex();
+        return $this->filterElementsWith(function($key, $value) use($block){
+            return !$block($key, $value);
+        })->reindex();
     }
 
     /**
-     *
+     * @return $this
      */
     public function clear()
     {
-        $this->elements = [];    
+        $this->elements = [];
+        return $this;
     }
 
     /**
      * @param $value
+     * @return $this
      */
     public function remove($value)
     {
-        while($this->includes($value)) {
-            $index = $this->findIndex($value);
-            unset($this[$index]);
-        }
-        $this->reindex();
+        return $this->filterElementsWith(function($k, $v) use($value) {
+            return $v != $value;
+        })->reindex();
+        
     }
 
     /**
      * @param Collection $collection
+     * @return $this
      */
     public function removeAll(Collection $collection)
     {
-        foreach ($collection as $element) {
-            $this->remove($element);
-        }
+        $collection->foreachDo(function($value) {
+            $this->remove($value);
+        });
+        return $this;
     }
 
     /**
      * @param $value
+     * @return $this
      */
     public function add($value)
     {
         $this->elements[] = $value;
+        return $this;
     }
 
     /**
@@ -218,13 +133,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function select(callable $block)
     {
-        $result = new Collection();
-        foreach ($this->elements as $key => $value) {
-            if ($block($key, $value)) {
-                $result->add($value);
-            }
-        }
-        return $result;
+        return (new Collection($this->filterWith($block)))->reindex();
     }
 
     /**
@@ -233,13 +142,9 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function reject(callable $block)
     {
-        $result = new Collection();
-        foreach ($this->elements as $key => $value) {
-            if (!$block($key, $value)) {
-                $result->add($value);
-            }
-        }
-        return $result;
+        return (new Collection($this->filterWith(function($key, $value) use($block){
+            return !$block($key, $value);
+        })))->reindex();
     }
 
     /**
@@ -248,11 +153,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function collect(callable $block)
     {
-        $result = new Collection();
-        foreach ($this->elements as $key => $value) {
-            $result->add($block($key, $value));
-        }
-        return $result;
+        return new Collection($this->mapWith($block));
     }
 
     /**
@@ -260,11 +161,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function copy()
     {
-        $result = new Collection();
-        foreach ($this->elements as $key => $value) {
-            $result->add($value);
-        }
-        return $result;
+        return new Collection($this->elements);
     }
 
     /**
@@ -273,9 +170,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function copyWith($value)
     {
-        $result = $this->copy();
-        $result->add($value);
-        return $result;
+        return $this->copy()->add($value);
     }
 
     /**
@@ -284,9 +179,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function copyWithout($value)
     {
-        $result = $this->copy();
-        $result->remove($value);
-        return $result;
+        return $this->copy()->remove($value);
     }
 
     /**
@@ -311,21 +204,19 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function join(Collection $collection)
     {
-        $result = $this->copy();
-        foreach ($collection as $element) {
-            $result->add($element);
-        }
-        return $result;
+        return $this->copy()->addAll($collection);
     }
 
     /**
      * @param Collection $collection
+     * @return $this
      */
     public function addAll(Collection $collection)
     {
-        foreach ($collection as $element) {
-            $this->add($element);
-        }
+        $collection->foreachDo(function($value) {
+            $this->add($value);
+        });
+        return $this;
     }
 
     /**
@@ -333,9 +224,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function unique()
     {
-        $collection = (new Collection(array_unique($this->toArray())));
-        $collection->reindex();
-        return $collection;
+        return (new Collection(array_unique($this->toArray())))->reindex();
     }
 
     /**
@@ -344,14 +233,48 @@ class Collection implements \ArrayAccess, \Iterator
     private function reindex()
     {
         $this->elements = array_values($this->elements);
+        return $this;
+    }
+    
+    /**
+     * @param callable $block
+     * @return array
+     */
+    private function filterWith(callable $block)
+    {
+        return array_filter($this->elements, function($value, $key) use($block) {
+            return $block($key, $value);
+        }, ARRAY_FILTER_USE_BOTH);
     }
 
     /**
-     * @param $value
-     * @return mixed
+     * @param callable $block
      */
-    private function findIndex($value)
+    private function foreachDo(callable $block)
     {
-        return array_search($value, $this->elements);
+        array_walk($this->elements, function($value) use($block) {
+            $block($value);
+        });
+    }
+
+    /**
+     * @param callable $block
+     * @return $this
+     */
+    private function filterElementsWith(callable $block)
+    {
+        $this->elements = $this->filterWith($block);
+        return $this;
+    }
+
+    /**
+     * @param callable $block
+     * @return array
+     */
+    private function mapWith(callable $block)
+    {
+        return array_map(function($key, $value) use($block){
+            return $block($key, $value);
+        }, array_keys($this->elements), $this->elements);
     }
 }
