@@ -153,6 +153,15 @@ class Collection implements \ArrayAccess, \Iterator
         return $result;
     }
     
+    public function collect(callable $block)
+    {
+        $result = new Collection();
+        foreach ($this->elements as $key => $value) {
+            $result->add($block($key, $value));
+        }
+        return $result;
+    }
+    
     private function reindex()
     {
         $this->elements = array_values($this->elements);
