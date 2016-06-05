@@ -25,4 +25,18 @@ class CollectionTest extends BaseTest
         $class[1] = 5;
         $this->assertEquals(5, $class[1]);
     }
+
+    public function testCanCheckOffset()
+    {
+        $class = new Collection([1, 2, 3]);
+        $this->assertTrue(isset($class[1]));
+        $this->assertFalse(isset($class[3]));
+    }
+
+    public function testCanDeleteOffset()
+    {
+        $class = new Collection([1, 2, 3]);
+        unset($class[1]);
+        $this->assertFalse(isset($class[1]));
+    }
 }
