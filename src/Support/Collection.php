@@ -79,9 +79,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function removeAllSuchThatMethod(callable $block)
     {
-        return $this->filterElementsWith(function($key, $value) use($block){
-            return !$block($key, $value);
-        })->reindex();
+        return $this->filterElementsWith($this->negateBlock($block))->reindex();
     }
 
     /**
@@ -142,9 +140,7 @@ class Collection implements \ArrayAccess, \Iterator
      */
     public function reject(callable $block)
     {
-        return (new Collection($this->filterWith(function($key, $value) use($block){
-            return !$block($key, $value);
-        })))->reindex();
+        return (new Collection($this->filterWith($this->negateBlock($block))))->reindex();
     }
 
     /**
@@ -276,5 +272,12 @@ class Collection implements \ArrayAccess, \Iterator
         return array_map(function($key, $value) use($block){
             return $block($key, $value);
         }, array_keys($this->elements), $this->elements);
+    }
+
+    private function negateBlock(callable $block)
+    {
+        return function ($key, $value) use ($block) {
+            return !$block($key, $value);
+        };
     }
 }
