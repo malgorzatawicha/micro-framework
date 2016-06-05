@@ -203,12 +203,19 @@ class Collection implements \ArrayAccess, \Iterator
             $this->remove($element);
         }
     }
-    
+
+    /**
+     * @param $value
+     */
     public function add($value)
     {
         $this->elements[] = $value;
     }
-    
+
+    /**
+     * @param callable $block
+     * @return Collection
+     */
     public function select(callable $block)
     {
         $result = new Collection();
@@ -220,6 +227,10 @@ class Collection implements \ArrayAccess, \Iterator
         return $result;
     }
 
+    /**
+     * @param callable $block
+     * @return Collection
+     */
     public function reject(callable $block)
     {
         $result = new Collection();
@@ -230,7 +241,11 @@ class Collection implements \ArrayAccess, \Iterator
         }
         return $result;
     }
-    
+
+    /**
+     * @param callable $block
+     * @return Collection
+     */
     public function collect(callable $block)
     {
         $result = new Collection();
@@ -239,7 +254,10 @@ class Collection implements \ArrayAccess, \Iterator
         }
         return $result;
     }
-    
+
+    /**
+     * @return Collection
+     */
     public function copy()
     {
         $result = new Collection();
@@ -248,7 +266,11 @@ class Collection implements \ArrayAccess, \Iterator
         }
         return $result;
     }
-    
+
+    /**
+     * @param $value
+     * @return Collection
+     */
     public function copyWith($value)
     {
         $result = $this->copy();
@@ -256,13 +278,22 @@ class Collection implements \ArrayAccess, \Iterator
         return $result;
     }
 
+    /**
+     * @param $value
+     * @return Collection
+     */
     public function copyWithout($value)
     {
         $result = $this->copy();
         $result->remove($value);
         return $result;
     }
-    
+
+    /**
+     * @param $targetValue
+     * @param $withValue
+     * @return Collection
+     */
     public function copyReplacing($targetValue, $withValue)
     {
         $result = $this->copy();
@@ -273,7 +304,11 @@ class Collection implements \ArrayAccess, \Iterator
         }
         return $result;
     }
-    
+
+    /**
+     * @param Collection $collection
+     * @return Collection
+     */
     public function join(Collection $collection)
     {
         $result = $this->copy();
@@ -283,13 +318,19 @@ class Collection implements \ArrayAccess, \Iterator
         return $result;
     }
 
+    /**
+     * @param Collection $collection
+     */
     public function addAll(Collection $collection)
     {
         foreach ($collection as $element) {
             $this->add($element);
         }
     }
-    
+
+    /**
+     * @return Collection
+     */
     public function unique()
     {
         $collection = (new Collection(array_unique($this->toArray())));
@@ -297,11 +338,18 @@ class Collection implements \ArrayAccess, \Iterator
         return $collection;
     }
 
+    /**
+     *
+     */
     private function reindex()
     {
         $this->elements = array_values($this->elements);
     }
-    
+
+    /**
+     * @param $value
+     * @return mixed
+     */
     private function findIndex($value)
     {
         return array_search($value, $this->elements);
