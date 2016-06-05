@@ -45,4 +45,12 @@ class CollectionTest extends BaseTest
         $class = new Collection([1, 2, 3]);
         $this->assertEquals(3, $class->size());
     }
+    
+    public function testOccurencesOfMethod()
+    {
+        $class = new Collection([1, 2, 3, 2]);
+        $this->assertEquals(1, $class->occurrencesOf(3));
+        $this->assertEquals(2, $class->occurrencesOf(2));
+        $this->assertEquals(0, $class->occurrencesOf(5));
+    }
 }

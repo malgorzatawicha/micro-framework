@@ -33,4 +33,10 @@ class Collection implements \ArrayAccess
     {
         return count($this->elements);
     }
+    
+    public function occurrencesOf($value)
+    {
+        $countedValues = array_count_values($this->elements);
+        return isset($countedValues[$value])?$countedValues[$value]:0;
+    }
 }
