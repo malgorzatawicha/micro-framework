@@ -40,8 +40,12 @@ class Collection implements \ArrayAccess
         return isset($countedValues[$value])?$countedValues[$value]:0;
     }
     
+    public function isEmpty()
+    {
+        return $this->size() == 0;
+    }
     public function isNotEmpty()
     {
-        return $this->size() > 0;
+        return !$this->isEmpty();
     }
 }

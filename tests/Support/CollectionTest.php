@@ -63,4 +63,14 @@ class CollectionTest extends BaseTest
         $this->assertTrue($class->isNotEmpty());
 
     }
+
+    public function testEmptyMethod()
+    {
+        $class = new Collection();
+        $this->assertTrue($class->isEmpty());
+
+        $class = new Collection([1, 2, 3]);
+        $this->assertFalse($class->isEmpty());
+
+    }
 }
