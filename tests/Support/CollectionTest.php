@@ -208,4 +208,12 @@ class CollectionTest extends BaseTest
         $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
         $this->assertEquals([5, 1, 5, 3], $newCollection->toArray());
     }
+    
+    public function testJoin()
+    {
+        $class = new Collection([2, 1, 2, 3]);
+        $newCollection = $class->join(new Collection([6, 2, 7,8]));
+        $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
+        $this->assertEquals([2, 1, 2, 3, 6, 2, 7, 8], $newCollection->toArray());  
+    }
 }
