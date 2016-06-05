@@ -290,6 +290,13 @@ class Collection implements \ArrayAccess, \Iterator
         }
     }
     
+    public function unique()
+    {
+        $collection = (new Collection(array_unique($this->toArray())));
+        $collection->reindex();
+        return $collection;
+    }
+
     private function reindex()
     {
         $this->elements = array_values($this->elements);

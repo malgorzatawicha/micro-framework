@@ -223,4 +223,12 @@ class CollectionTest extends BaseTest
         $class->addAll(new Collection([6, 2, 7,8]));
         $this->assertEquals([2, 1, 2, 3, 6, 2, 7, 8], $class->toArray());
     }
+
+    public function testUnique()
+    {
+        $class = new Collection([2, 1, 2, 3]);
+        $newCollection = $class->unique();
+        $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
+        $this->assertEquals([2, 1, 3], $newCollection->toArray());
+    }
 }
