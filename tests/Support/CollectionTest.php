@@ -120,4 +120,11 @@ class CollectionTest extends BaseTest
         $class->clear();
         $this->assertTrue($class->isEmpty());
     }
+
+    public function testRemove()
+    {
+        $class = new Collection([2, 1, 2, 3]);
+        $class->remove(2);
+        $this->assertEquals([1, 3], $class->toArray());
+    }
 }

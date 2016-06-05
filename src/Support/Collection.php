@@ -109,9 +109,23 @@ class Collection implements \ArrayAccess, \Iterator
     {
         $this->elements = [];    
     }
+
+    public function remove($value)
+    {
+        while($this->includes($value)) {
+            $index = $this->findIndex($value);
+            unset($this[$index]);
+        }
+        $this->reindex();
+    }
     
     private function reindex()
     {
         $this->elements = array_values($this->elements);
+    }
+    
+    private function findIndex($value)
+    {
+        return array_search($value, $this->elements);
     }
 }
