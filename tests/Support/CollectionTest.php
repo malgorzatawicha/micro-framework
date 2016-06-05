@@ -192,4 +192,13 @@ class CollectionTest extends BaseTest
         $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
         $this->assertEquals([1, 2, 3, 4], $newCollection->toArray());
     }
+
+    public function testCopyWithout()
+    {
+        $class = new Collection([2, 1, 2, 3]);
+        $newCollection = $class->copyWithout(2);
+        $this->assertInstanceOf('\MW\Support\Collection', $newCollection);
+        $this->assertEquals([1, 3], $newCollection->toArray());
+    }
+
 }

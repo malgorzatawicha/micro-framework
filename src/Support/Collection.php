@@ -177,6 +177,13 @@ class Collection implements \ArrayAccess, \Iterator
         $result->add($value);
         return $result;
     }
+
+    public function copyWithout($value)
+    {
+        $result = $this->copy();
+        $result->remove($value);
+        return $result;
+    }
     
     private function reindex()
     {
