@@ -39,4 +39,10 @@ class CollectionTest extends BaseTest
         unset($class[1]);
         $this->assertFalse(isset($class[1]));
     }
+    
+    public function testSizeMethod()
+    {
+        $class = new Collection([1, 2, 3]);
+        $this->assertEquals(3, $class->size());
+    }
 }

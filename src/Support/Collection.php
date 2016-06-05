@@ -28,4 +28,9 @@ class Collection implements \ArrayAccess
     {
         unset($this->elements[$offset]);
     }
+    
+    public function size()
+    {
+        return count($this->elements);
+    }
 }
