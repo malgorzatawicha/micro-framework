@@ -113,4 +113,11 @@ class CollectionTest extends BaseTest
         });
         $this->assertEquals([1, 3], $class->toArray());
     }
+    
+    public function testClear()
+    {
+        $class = new Collection([1, 2, 3]);
+        $class->clear();
+        $this->assertTrue($class->isEmpty());
+    }
 }

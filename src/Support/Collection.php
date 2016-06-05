@@ -105,6 +105,11 @@ class Collection implements \ArrayAccess, \Iterator
         $this->reindex();
     }
 
+    public function clear()
+    {
+        $this->elements = [];    
+    }
+    
     private function reindex()
     {
         $this->elements = array_values($this->elements);
