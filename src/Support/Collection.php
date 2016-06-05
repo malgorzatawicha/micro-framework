@@ -94,4 +94,19 @@ class Collection implements \ArrayAccess, \Iterator
     {
         return $this->elements;
     }
+    
+    public function removeAllSuchThatMethod(callable $block)
+    {
+        foreach ($this->elements as $key => $value) {
+            if ($block($key, $value)) {
+                unset($this->elements[$key]);
+            }
+        }
+        $this->reindex();
+    }
+
+    private function reindex()
+    {
+        $this->elements = array_values($this->elements);
+    }
 }

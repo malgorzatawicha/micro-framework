@@ -104,4 +104,13 @@ class CollectionTest extends BaseTest
         $class = new Collection([1, 2, 3]);
         $this->assertEquals([1, 2, 3], $class->toArray());        
     }
+    
+    public function testRemoveAllSuchThatMethod()
+    {
+        $class = new Collection([2, 1, 2, 3]);
+        $class->removeAllSuchThatMethod(function($key, $value) {
+           return $value == 2;
+        });
+        $this->assertEquals([1, 3], $class->toArray());
+    }
 }
