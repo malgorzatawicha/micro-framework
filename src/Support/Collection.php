@@ -171,6 +171,13 @@ class Collection implements \ArrayAccess, \Iterator
         return $result;
     }
     
+    public function copyWith($value)
+    {
+        $result = $this->copy();
+        $result->add($value);
+        return $result;
+    }
+    
     private function reindex()
     {
         $this->elements = array_values($this->elements);
