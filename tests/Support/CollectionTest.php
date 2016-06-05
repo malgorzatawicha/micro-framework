@@ -79,5 +79,15 @@ class CollectionTest extends BaseTest
         $this->assertTrue($class->includes(1));
         $this->assertFalse($class->includes(5));
     }
-    
+
+    public function testCanUseForeachOnCollection()
+    {
+        $class = new Collection([1, 2, 3]);
+        
+        $result = [];
+        foreach ($class as $value) {
+            $result[] = $value;
+        }
+        $this->assertEquals([1, 2, 3], $result);
+    }
 }

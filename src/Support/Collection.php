@@ -1,6 +1,6 @@
 <?php namespace MW\Support;
 
-class Collection implements \ArrayAccess
+class Collection implements \ArrayAccess, \Iterator
 {
     private $elements;
     
@@ -53,5 +53,30 @@ class Collection implements \ArrayAccess
     {
         return false !== array_search($value, $this->elements);    
     }
-    
+
+    public function current()
+    {
+        return current($this->elements);
+    }
+
+    public function next()
+    {
+        return next($this->elements);
+    }
+
+    public function key()
+    {
+        return key($this->elements);
+    }
+
+    public function valid()
+    {
+        $key = key($this->elements);
+        return ($key !== null && $key !== false);
+    }
+
+    public function rewind()
+    {
+        return reset($this->elements);
+    }
 }
